@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE508 老师课堂重点整理 Lec 1–10</title>
+<style>
+  :root {
+    --lec1: #1a73e8; --lec1-bg: #e8f0fe;
+    --lec2: #0f9d58; --lec2-bg: #e6f4ea;
+    --lec3: #e67e00; --lec3-bg: #fef3e2;
+    --lec4: #9c27b0; --lec4-bg: #f3e5f5;
+    --lec5: #00838f; --lec5-bg: #e0f7fa;
+    --lec6: #c62828; --lec6-bg: #ffebee;
+    --star: #f44336; --star-bg: #fff3f3;
+    --note: #f57c00; --note-bg: #fff8f0;
+    --key: #2e7d32; --key-bg: #f1f8e9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; color: #333; font-size: 14px; }
+  
+  /* Top nav */
+  .nav { position: sticky; top: 0; z-index: 100; background: #1e1e2e; display: flex; gap: 6px; padding: 8px 16px; flex-wrap: wrap; border-bottom: 3px solid #444; }
+  .nav a { color: #fff; text-decoration: none; padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+  .nav a:hover { opacity: 0.8; transform: scale(1.05); }
+  .nav-l1 { background: var(--lec1); } .nav-l2 { background: var(--lec2); }
+  .nav-l3 { background: var(--lec3); } .nav-l4 { background: var(--lec4); }
+  .nav-l5 { background: var(--lec5); } .nav-l6 { background: var(--lec6); }
+  .nav-title { color: #aaa; font-size: 12px; display: flex; align-items: center; margin-right: 8px; }
+
+  /* Header */
+  .page-header { background: linear-gradient(135deg, #1e1e2e, #2d2d44); color: #fff; padding: 28px 24px; text-align: center; }
+  .page-header h1 { font-size: 22px; margin-bottom: 6px; }
+  .page-header p { color: #aaa; font-size: 13px; }
+  .badge-legend { display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .badge-legend span { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  
+  /* Lecture section */
+  .lec-section { margin: 20px 16px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .lec-header { padding: 14px 20px; color: #fff; display: flex; align-items: center; gap: 12px; }
+  .lec-header h2 { font-size: 18px; }
+  .lec-header .subtitle { font-size: 12px; opacity: 0.85; }
+  .lec-header .lec-num { font-size: 28px; font-weight: 900; opacity: 0.4; margin-left: auto; }
+  .lec-body { background: #fff; padding: 0; }
+  
+  /* Category block */
+  .cat-block { border-bottom: 1px solid #f0f0f0; padding: 14px 20px; }
+  .cat-block:last-child { border-bottom: none; }
+  .cat-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; margin-bottom: 10px; }
+  
+  /* Items */
+  .items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .item { display: flex; align-items: flex-start; gap: 6px; padding: 8px 12px; border-radius: 8px; font-size: 13px; line-height: 1.5; flex: 1 1 300px; min-width: 260px; }
+  .item-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .item-text strong { display: block; font-size: 13px; }
+  .item-text .zh { color: #666; font-size: 12px; margin-top: 2px; }
+  .item-star { background: var(--star-bg); border-left: 3px solid var(--star); }
+  .item-key { background: var(--key-bg); border-left: 3px solid var(--key); }
+  .item-note { background: var(--note-bg); border-left: 3px solid var(--note); }
+  .item-plain { background: #fafafa; border-left: 3px solid #ddd; }
+  
+  /* Table style */
+  .vtable { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+  .vtable th { background: #f5f5f5; padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid #e0e0e0; }
+  .vtable td { padding: 7px 12px; border: 1px solid #e0e0e0; vertical-align: top; }
+  .vtable tr:nth-child(even) td { background: #fafafa; }
+  
+  /* Flow / numbered list */
+  .flow { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 6px; }
+  .flow-step { background: #fff; border: 2px solid #ddd; border-radius: 8px; padding: 6px 14px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .flow-arrow { color: #bbb; font-size: 16px; font-weight: 900; }
+  
+  /* Highlight pill */
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; margin: 1px; }
+  .pill-red { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+  .pill-green { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
+  .pill-blue { background: #e3f2fd; color: #0d47a1; border: 1px solid #bbdefb; }
+  .pill-orange { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+  .pill-purple { background: #f3e5f5; color: #4a148c; border: 1px solid #e1bee7; }
+  .pill-teal { background: #e0f2f1; color: #004d40; border: 1px solid #b2dfdb; }
+
+  /* Two-col layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* Compare box */
+  .compare-box { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 8px; padding: 12px; }
+  .compare-box h4 { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 8px; }
+  
+  /* Timeline */
+  .timeline { display: flex; flex-wrap: wrap; gap: 0; position: relative; padding: 10px 0; }
+  .tl-item { text-align: center; flex: 1 1 80px; min-width: 70px; position: relative; }
+  .tl-dot { width: 32px; height: 32px; border-radius: 50%; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; }
+  .tl-label { font-size: 11px; font-weight: 600; line-height: 1.3; }
+  .tl-line { position: absolute; top: 16px; left: 50%; right: -50%; height: 2px; background: #ddd; z-index: 0; }
+  .tl-item:last-child .tl-line { display: none; }
+
+  /* Exam alert box */
+  .exam-box { background: #fff3f3; border: 2px solid #f44336; border-radius: 10px; padding: 12px 16px; margin: 0 16px 16px; }
+  .exam-box h3 { color: #c62828; font-size: 14px; margin-bottom: 8px; }
+  .exam-box ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+  .exam-box li { background: #fff; border: 1px solid #ffcdd2; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; color: #333; }
+  
+  .section-gap { height: 8px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-title">CSE508 跳转 →</span>
+  <a href="#lec1" class="nav-l1">Lec1 EIA基础</a>
+  <a href="#lec2" class="nav-l2">Lec2 EIA流程</a>
+  <a href="#lec3" class="nav-l3">Lec3 评估框架</a>
+  <a href="#lec4" class="nav-l4">Lec4 空气质量</a>
+  <a href="#lec5" class="nav-l5">Lec5 水质</a>
+  <a href="#lec6" class="nav-l6">Lec6 噪音</a>
+  <a href="#lec7" style="background:#2e7d32;">Lec7 生态</a>
+  <a href="#lec8" style="background:#558b2f;">Lec8 景观</a>
+  <a href="#lec9" style="background:#6d4c41;">Lec9 文化遗产</a>
+  <a href="#lec10" style="background:#37474f;">Lec10 EM&A</a>
+  <a href="#exam-hot" style="background:#e65100;">🎯考试重点</a>
+</div>
+
+<div class="page-header">
+  <h1>📚 CSE508 老师课堂 Transcript 重点整理 Lec 1–10</h1>
+  <p>Lec 1–10 | 老师原话提炼 · 考试高频词 · 必记知识点</p>
+  <div class="badge-legend">
+    <span style="background:#ffebee;color:#c62828;border:1px solid #ffcdd2;">⭐ 老师说put a star</span>
+    <span style="background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;">🔑 keyword / 必背词</span>
+    <span style="background:#fff3e0;color:#e65100;border:1px solid #ffe0b2;">📌 考试必考</span>
+    <span style="background:#fafafa;color:#555;border:1px solid #ddd;">📋 补充说明</span>
+  </div>
+</div>
+
+<!-- ============ LEC 1 ============ -->
+<div id="lec1" class="lec-section">
+  <div class="lec-header" style="background: var(--lec1);">
+    <div>
+      <div class="subtitle">Week 1 · Samantha老师</div>
+      <h2>Lec 1 — EIA 基础原则 & 历史背景</h2>
+    </div>
+    <div class="lec-num">01</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 老师要求PUT A STAR 的核心概念</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>EIA 三步减量原则（必背顺序）</strong>
+            <div class="zh">→ 中文：三步走，缺一不可</div>
+            <div style="margin-top:6px;" class="flow">
+              <span class="flow-step" style="background:#e3f2fd;border-color:var(--lec1);">① Avoid<br><small>避免</small></span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step" style="background:#e8f5e9;border-color:#0f9d58;">② Minimize<br><small>最小化</small></span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step" style="background:#fff3e0;border-color:#e67e00;">③ Mitigate & Control<br><small>缓解/控制</small></span>
+            </div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>EIA 是 Proactive Planning Tool（主动规划工具）</strong>
+            <div class="zh">→ 中文：要尽早开始，在规划阶段（Planning Stage）启动，不能等到建设期</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>EIA 的 核心词：IMPACT（影响）</strong>
+            <div class="zh">→ 老师原话：「just one word that you need to remember. The key word is impact.」全课13周都在讲impact</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 必背关键词（老师多次强调highlight）</div>
+      <div class="items">
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>process（流程）</strong>
+            <div class="zh">→ EIA的定义第一个词，老师3次提示「I want you to highlight the word process」</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>predict（预测）</strong>
+            <div class="zh">→ EIA在项目建设前进行，所有结论都是prediction（预测），项目还未建成</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>adverse（负面/有害）= negative</strong>
+            <div class="zh">→ 老师原话：「Adverse meaning any negative impacts」全课出现数十次</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>systematic planning（系统规划）</strong>
+            <div class="zh">→ EIA的特征，老师说「I want to highlight the word systematic planning」</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>Designated Project (DP)（指定工程）</strong>
+            <div class="zh">→ 「Make sure you know this word in red」只有DP才需要做EIA，不是所有项目</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>Quantify（量化）</strong>
+            <div class="zh">→ EIA结论需要有数字，老师说「I want you to highlight the word quantify」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 香港EIA历史时间线（老师课上逐年讲解）</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot" style="background:#9e9e9e;">1894</div><div class="tl-label">Bubonic Plague<br>鼠疫→水污染</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#607d8b;">1959</div><div class="tl-label">Quinwan空气污染<br>Clean Air Ordinance</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#1565c0;">1962</div><div class="tl-label">Rachel Carson<br>DDT研究</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#0277bd;">1969</div><div class="tl-label">美国NEPA<br>最早EIA法</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#00838f;">1972</div><div class="tl-label">Stockholm会议<br>26原则</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#2e7d32;">1987</div><div class="tl-label">Brundtland<br>可持续发展定义</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#e65100;">1994</div><div class="tl-label">香港政策宣言<br>立法倡议</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#c62828;">1997</div><div class="tl-label" style="font-weight:800;color:#c62828;">EIAO enacted<br>⭐必背</div><div class="tl-line"></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:#6a1b9a;">2022</div><div class="tl-label">EIAO更新<br>效率提升50%</div><div class="tl-line"></div></div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📋 EIA 项目生命周期（4阶段）</div>
+      <div class="flow" style="gap:6px;">
+        <span class="flow-step" style="background:#e3f2fd;border-color:#1a73e8;">Planning<br><small>规划（EIA在此开始）</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Design<br><small>设计</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Construction<br><small>施工</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Operation<br><small>运营</small></span>
+      </div>
+      <div style="margin-top:8px;color:#666;font-size:12px;">⚠️ 老师强调：EIA 越早开始越好，越晚代价越大（avoid late focus）</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 2 ============ -->
+<div id="lec2" class="lec-section">
+  <div class="lec-header" style="background: var(--lec2);">
+    <div>
+      <div class="subtitle">Week 2 · Samantha老师</div>
+      <h2>Lec 2 — EIAO 法律流程 & 文件体系</h2>
+    </div>
+    <div class="lec-num">02</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ EIA 核心流程文件（考试100%考）</div>
+      <div class="flow" style="flex-direction:column;align-items:flex-start;gap:2px;padding:4px 0;">
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+          <span class="flow-step" style="background:#e8f5e9;border-color:#0f9d58;min-width:140px;text-align:center;">Project Profile (PP)<br><small>项目概况 — 项目方准备</small></span>
+          <span class="flow-arrow">→</span>
+          <span class="pill pill-green">Proponent（项目方）准备</span>
+        </div>
+        <div style="color:#bbb;padding:0 20px;">↓ 公众咨询 Round 1 (14天) — PP公示</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+          <span class="flow-step" style="background:#e8f5e9;border-color:#0f9d58;min-width:140px;text-align:center;">EIA Study Brief<br><small>研究纲要 — EPD准备</small></span>
+          <span class="flow-arrow">→</span>
+          <span class="pill pill-blue">EPD（环保署）准备</span>
+        </div>
+        <div style="color:#bbb;padding:0 20px;">↓</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+          <span class="flow-step" style="background:#e8f5e9;border-color:#0f9d58;min-width:140px;text-align:center;">EIA Report<br><small>环评报告 — 项目方准备</small></span>
+          <span class="flow-arrow">→</span>
+          <span class="pill pill-green">Proponent（项目方）准备</span>
+        </div>
+        <div style="color:#bbb;padding:0 20px;">↓ 公众咨询 Round 2 (30天/ACE 60天)</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+          <span class="flow-step" style="background:#fff3e0;border-color:#e65100;min-width:140px;text-align:center;">Environmental Permit (EP)<br><small>环境许可证</small></span>
+          <span class="flow-arrow">→</span>
+          <span class="pill pill-orange">DEP（环保署长）审批</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 公众咨询关键数字（考试填空必考）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>2次公众咨询</strong>
+            <div class="zh">→ 第1次：Project Profile提交后 | 第2次：EIA报告提交后</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>时间限制：Round 1 (PP) = 14天 | Round 2 EIA Report: Public = 30天，ACE = 60天</strong>
+            <div class="zh">→ Round 1 只有14天（EIAO Section 5）；Round 2 公众30天 + ACE最多60天 | ACE = Advisory Council on the Environment（环境谘询委员会）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 重要文件与机构（必背缩写）</div>
+      <table class="vtable">
+        <tr><th>缩写</th><th>全称</th><th>中文</th><th>作用</th></tr>
+        <tr><td><strong>EPD</strong></td><td>Environmental Protection Department</td><td>环境保护署</td><td>EIA的主管机构（Authority）</td></tr>
+        <tr><td><strong>DEP</strong></td><td>Director of Environmental Protection</td><td>署长</td><td>EPD最高职位，审批EP</td></tr>
+        <tr><td><strong>ACE</strong></td><td>Advisory Council on the Environment</td><td>环境谘询委员会</td><td>独立审查，给60天</td></tr>
+        <tr><td><strong>TM</strong></td><td>Technical Memorandum</td><td>技术备忘录</td><td>法定文件；提供guidelines和criteria</td></tr>
+        <tr><td><strong>EIAO</strong></td><td>Environmental Impact Assessment Ordinance</td><td>环境影响评估条例</td><td>1997年立法通过，<strong>1998年4月1日正式生效</strong>；2022年更新</td></tr>
+        <tr><td><strong>DP</strong></td><td>Designated Project</td><td>指定工程</td><td>只有DP受EIAO管制；Schedule 2 DP须取得EP（是否需EIA Report视情况而定）；Schedule 3 DP须提交EIA Report</td></tr>
+        <tr><td><strong>ESMG</strong></td><td>Early Stage Meeting with Government</td><td>前期与政府会议</td><td>EIA开始前的协调会议</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ ESMG 功能（老师说「put a star on point 1」）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Point 1: Clarify EIAO Requirements（明确EIAO要求）</strong>
+            <div class="zh">→ 发生在Project Profile之前；是forum，多方参与；关键词：early dialogues</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>其他ESMG讨论内容</strong>
+            <div class="zh">→ Study Brief内容 / TM中的guidelines & criteria / 假设、模型、方法论 / 初步mitigation measures</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 Schedule 2 vs Schedule 3（必须区分）</div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:var(--lec2);">
+          <h4>Schedule 2 — 须申请Environmental Permit的工程</h4>
+          <p>须取得EP方可进行；是否需要EIA Report取决于影响程度和审批路径<br>→ 大部分基础设施工程</p>
+        </div>
+        <div class="compare-box" style="border-color:#e65100;">
+          <h4>Schedule 3 — 超大面积发展</h4>
+          <p>面积 <strong>&gt;50公顷</strong>（不是25！）<br>→ 新市镇、重建区；需考虑cumulative impact</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 EP 变更路径（考试会考区别）</div>
+      <div class="items">
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>FEP（Further Environmental Permit）</strong>
+            <div class="zh">→ 当负责DP的permit holder（机构/人员）改变时；无需重新提交EIA报告；⚠️ 非"First"，是"Further"</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>VEP（Variation of Environmental Permit）</strong>
+            <div class="zh">→ 当EP条件（conditions）需要更改时</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>Direct Application（直接申请）</strong>
+            <div class="zh">→ 某些项目无需EIA，可直接拿EP；条件：影响unlikely adverse，且「proved beyond reasonable doubt」(S.5.3)<br>→ ⭐ 缩短法定程序：从 <strong>7.5个月 → 2.5个月</strong>（老师特别说明）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ EIAO 2022年更新重点（老师专门讲解的改革）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Schedule 3 面积门槛：20公顷 → 50公顷</strong>
+            <div class="zh">→ 老师原话：「previously they only had 20 hectares, they decided to increase it from 20 to 50」<br>→ 所以考题说"25公顷"是陷阱！正确答案是50公顷</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>EIA审批周期：3-4年 → 24个月以内（2年）</strong>
+            <div class="zh">→ 老师原话：「now most EIA projects will be approved within 24 months, which is within 2 years」<br>→ 以前需要3-4年，现在优化到2年内</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 3 ============ -->
+<div id="lec3" class="lec-section">
+  <div class="lec-header" style="background: var(--lec3);">
+    <div>
+      <div class="subtitle">Week 3 · Samantha老师</div>
+      <h2>Lec 3 — EIA 5步评估框架（EP-JR）</h2>
+    </div>
+    <div class="lec-num">03</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 两套5步框架（老师说「put a star，starting from next week we'll use the same flow」）</div>
+
+      <div style="margin-bottom:6px;font-size:12px;font-weight:700;color:#e65100;">框架A：TM DEP标准（Lec 3 EIA Report内容，Section 4 TM）</div>
+      <div class="flow" style="gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#e3f2fd;border:2px solid var(--lec1);border-radius:8px;padding:8px;font-size:12px;font-weight:700;">a.<br>Baseline Surveys<br><small style="color:#555;font-weight:400;">描述现有环境</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#e8f5e9;border:2px solid #0f9d58;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">b.<br>Impact Prediction<br><small style="color:#555;font-weight:400;">影响预测（Annex 12-19）</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#fff3e0;border:2px solid var(--lec3);border-radius:8px;padding:8px;font-size:12px;font-weight:700;">c.<br>Impact Evaluation<br><small style="color:#555;font-weight:400;">影响评估（Annex 4-10）</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#f3e5f5;border:2px solid #9c27b0;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">d.<br>Impact Mitigation<br><small style="color:#555;font-weight:400;">避免-减少-补偿</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#ffebee;border:2px solid #c62828;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">e.<br>Residual Impact Evaluation<br><small style="color:#555;font-weight:400;">残余影响评估</small></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:6px;font-size:12px;font-weight:700;color:#1565c0;">框架B：Broad Approach（Lec 4/5/6/7/8 每章重复使用，Jin考试框架）</div>
+      <div class="flow" style="gap:6px;flex-wrap:wrap;">
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#e3f2fd;border:2px solid #1565c0;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">Step 1<br>Identify Sources<br><small style="color:#555;font-weight:400;">识别影响来源</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#e8f5e9;border:2px solid #1565c0;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">Step 2<br>Identify Sensitive Receivers<br><small style="color:#555;font-weight:400;">识别敏感受体</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#fff3e0;border:2px solid #1565c0;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">Step 3<br>Quantify the Impact<br><small style="color:#555;font-weight:400;">量化影响</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#f3e5f5;border:2px solid #1565c0;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">Step 4<br>Mitigation Measures<br><small style="color:#555;font-weight:400;">缓解措施</small></div>
+        </div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 130px;">
+          <div style="background:#ffebee;border:2px solid #1565c0;border-radius:8px;padding:8px;font-size:12px;font-weight:700;">Step 5<br>Residual Impact<br><small style="color:#555;font-weight:400;">残余影响</small></div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:#666;padding:6px 8px;background:#f5f5f5;border-radius:4px;">⚠️ 框架B（Broad Approach）是每章技术评估lecture都在用的那套；Jin Week 7课上直接用这套框架做EcoIA复习</div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 关键术语解析</div>
+      <div class="items">
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>Sensitive Receivers（敏感受体）</strong>
+            <div class="zh">→ 被项目影响的事物（居民、生态、建筑等）；老师说「this is a really important term」</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>Cumulative Impact（累积影响）</strong>
+            <div class="zh">→ 同期正在进行的其他项目（concurrent projects）的叠加影响</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>Residual Impact（残余影响）</strong>
+            <div class="zh">→ 实施缓解措施后仍剩余的影响；老师说「I want you to highlight the word residual」</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>Scoping（范围界定）</strong>
+            <div class="zh">→ 「老师要put a star」：识别需要评估的影响范围，是评估的backbone（骨干）</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🔑</span>
+          <div class="item-text">
+            <strong>Alternatives Assessment（替代方案评估）</strong>
+            <div class="zh">→ 必须在最早期（NOT在影响评估阶段）进行；在impact assessment stage才做替代方案已太迟</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 需要考虑的阶段（老师特别提醒）</div>
+      <div class="items">
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>Construction Phase + Operation Phase（施工 + 运营）</strong>
+            <div class="zh">→ 老师强调：「Make sure you put it down, not just construction phase」两个阶段都要评估</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>EIA报告需遵循：Study Brief + TM + EIAO</strong>
+            <div class="zh">→ 三个文件缺一不可；老师说「make sure you don't miss out one of them」</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>引用已批准EIA报告的时限：5年以内</strong>
+            <div class="zh">→ 老师黄色标注：「previously approved EIA reports = reports completed within 5 years」<br>→ PP中Chapter 6可引用近5年内已批准的EIA报告数据</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 4 ============ -->
+<div id="lec4" class="lec-section">
+  <div class="lec-header" style="background: var(--lec4);">
+    <div>
+      <div class="subtitle">Week 4 · Samantha老师</div>
+      <h2>Lec 4 — 空气质量影响评估</h2>
+    </div>
+    <div class="lec-num">04</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 立法框架（必背缩写 — 老师说「mark it down, it's important」）</div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:var(--lec4);">
+          <h4>APCO — Air Pollution Control Ordinance</h4>
+          <p>空气污染管制条例<br>→ 空气版的WPCO，是空气质量的法律依据<br>→ 遵循WHO Global Air Quality Guidelines</p>
+        </div>
+        <div class="compare-box" style="border-color:var(--lec4);">
+          <h4>AQO — Air Quality Objectives</h4>
+          <p>空气质素指标<br>→ 空气版的WQO；EIA必须对照AQO评估<br>→ 老师说「put it down, AQO，very important, don't miss that」<br>→ ⭐ <strong>每5年更新一次</strong>（老师：「highlight，once every 5 years」；2025→2030）<br>→ ⭐ 监测 <strong>7种常见污染物</strong>：NO₂, SO₂, O₃, CO, PM10, PM2.5, Lead（老师：「put a circle onto these 7」）</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 高层建筑对空气污染的影响（老师说「put a star on point 4」）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>高楼大厦 Restricts（限制）污染物稀释</strong>
+            <div class="zh">→ 关键词：restricting the dilution of air pollutants<br>→ 高楼阻碍风流，使污染物无法扩散，越聚越浓</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Green Transport（绿色交通）</strong>
+            <div class="zh">→ 老师说「put a star next to it，really important」；车辆排放是空气污染主要来源</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 燃料选择排名（考试可能考）</div>
+      <table class="vtable">
+        <tr><th>排名</th><th>燃料</th><th>CO2排放</th><th>其他污染物</th><th>评价</th></tr>
+        <tr><td>🥇 Best</td><td><strong>Natural Gas（天然气）</strong></td><td>最低（约coal的一半）</td><td>SO₂、PM较低</td><td>最环保</td></tr>
+        <tr><td>🥈</td><td><strong>ULSD（超低硫柴油）</strong></td><td>中</td><td>中</td><td>次选</td></tr>
+        <tr><td>🥉 Worst</td><td><strong>Coal（煤）</strong></td><td>最高</td><td>SO₂、PM、重金属高</td><td>最差</td></tr>
+      </table>
+      <div style="margin-top:6px;color:#666;font-size:12px;">⚠️ 老师课堂举例：「CLP used to use coal, HK Electric used natural gas」— 此为教学举例，<strong>非现时能源结构的精确描述</strong>；老师用Lamma Extension作case study</div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 香港空气监测站（两种类型必须区分）</div>
+      <div class="two-col">
+        <div class="compare-box">
+          <h4>General Stations（一般监测站）15个</h4>
+          <p>• 位置：远离交通繁忙区域<br>• 目的：监测<strong>背景空气质量</strong>（background level）<br>• 监测：PM10, PM2.5, SO₂, NO₂, O₃</p>
+        </div>
+        <div class="compare-box">
+          <h4>Roadside Stations（路边监测站）3个</h4>
+          <p>• 位置：繁忙道路旁<br>• 目的：监测<strong>车辆排放影响</strong><br>• 香港共18个监测站（15+3）</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📋 主要空气污染物</div>
+      <div class="items">
+        <div class="item item-plain">
+          <span class="item-icon">🔵</span>
+          <div class="item-text">
+            <strong>RSP / PM10</strong>
+            <div class="zh">→ 呼吸性悬浮粒子；直径≤10μm；老师说「the diameter is really important」</div>
+          </div>
+        </div>
+        <div class="item item-plain">
+          <span class="item-icon">🔵</span>
+          <div class="item-text">
+            <strong>PM2.5（细悬浮粒子）</strong>
+            <div class="zh">→ 直径≤2.5μm，可进入肺部深处，危害更大</div>
+          </div>
+        </div>
+        <div class="item item-plain">
+          <span class="item-icon">🔵</span>
+          <div class="item-text">
+            <strong>NRMM（非道路流动机械）</strong>
+            <div class="zh">→ Non-Road Mobile Machinery；老师说「I want you to highlight this one」<br>→ 例子：挖掘机、吊机、混凝土搅拌机、发电机</div>
+          </div>
+        </div>
+        <div class="item item-plain">
+          <span class="item-icon">🔵</span>
+          <div class="item-text">
+            <strong>O₃（臭氧）</strong>
+            <div class="zh">→ 区域性污染，来自光化学烟雾；是唯一浓度没有明显下降的污染物</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 老师特别提醒（考试逻辑提示）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>「前三周EIA流程是全课最重要的部分」</strong>
+            <div class="zh">→ 老师原话：「those are the most important part of this 13 weeks that you must know，don't skip it during revision」</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>Assumption（假设）在模型中非常重要</strong>
+            <div class="zh">→ 做预测模型时必须知道用了哪些假设；老师说「assumption is really important」</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>空气质量研究范围：项目边界外 500m（ASR = Air Sensitive Receiver）</strong>
+            <div class="zh">→ 老师说「within 500 meters from the project boundary，this is a norm」<br>→ 不同影响类型研究范围不同，空气是500m；需查Study Brief + TM确认具体要求</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>香港盛行风（Prevailing Wind）方向：东北（Northeast）</strong>
+            <div class="zh">→ 老师要「circle this」：评估空气影响时，风向决定污染物扩散路径</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 5 ============ -->
+<div id="lec5" class="lec-section">
+  <div class="lec-header" style="background: var(--lec5);">
+    <div>
+      <div class="subtitle">Week 5 · Samantha老师</div>
+      <h2>Lec 5 — 水质影响评估</h2>
+    </div>
+    <div class="lec-num">05</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 立法框架（类比空气的APCO/AQO）</div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:var(--lec5);">
+          <h4>WPCO — Water Pollution Control Ordinance (1980)</h4>
+          <p>水污染管制条例 — 比EIAO更早！<br>→ 老师说「make sure you know WPCO」<br>→ 建立了<strong>10个</strong>水质管制区（WCZ，Water Control Zone）</p>
+        </div>
+        <div class="compare-box" style="border-color:var(--lec5);">
+          <h4>WQO — Water Quality Objectives</h4>
+          <p>水质指标<br>→ 老师说「put a star on this，you need to know what WQO is」<br>→ 每个WCZ都有对应WQO<br>→ 两种类型：<strong>Descriptive（描述性）</strong> vs <strong>Numerical（数值型）</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 水质评估5步框架（老师说「put a star，very important，know the flow」）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>4个参考文件（顺序要记）</strong>
+            <div class="zh">→ TM → EIAO → WQO → WPCO（老师说「there are 4，more than 2，mark down all 4」）</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow" style="margin-top:10px;gap:6px;flex-wrap:wrap;">
+        <div style="text-align:center;flex:1 1 120px;"><div style="background:#e0f2f1;border:2px solid var(--lec5);border-radius:8px;padding:6px;font-size:12px;font-weight:700;">Step 1<br>Requirements<br>(TM/EIAO/WQO/WPCO)</div></div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 120px;"><div style="background:#e0f2f1;border:2px solid var(--lec5);border-radius:8px;padding:6px;font-size:12px;font-weight:700;">Step 2<br>Baseline<br>(现状调查)</div></div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 120px;"><div style="background:#fff3e0;border:2px solid #e65100;border-radius:8px;padding:6px;font-size:12px;font-weight:700;">Step 3<br>Predict & Quantify<br>(量化预测)</div></div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 120px;"><div style="background:#f3e5f5;border:2px solid #9c27b0;border-radius:8px;padding:6px;font-size:12px;font-weight:700;">Step 4<br>Mitigation<br>(缓解措施)</div></div>
+        <span class="flow-arrow" style="align-self:center;">→</span>
+        <div style="text-align:center;flex:1 1 120px;"><div style="background:#ffebee;border:2px solid #c62828;border-radius:8px;padding:6px;font-size:12px;font-weight:700;">Step 5<br>Residual Impact<br>(残余影响)</div></div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 必知水质参数（老师说「put a star，these are WQO parameters and water quality pollutants」）</div>
+      <table class="vtable">
+        <tr><th>参数</th><th>关键点</th><th>老师课上说过的重点</th></tr>
+        <tr><td><strong>DO（Dissolved Oxygen）溶解氧</strong></td><td>越高越好</td><td>「oxygen enters water, enhances turbulence」与温度负相关</td></tr>
+        <tr><td><strong>TIN（Total Inorganic Nitrogen）</strong></td><td>过多→藻类爆发</td><td>是藻类重要养分；老师展示了excessive algae growth的图片</td></tr>
+        <tr><td><strong>Chlorophyll-a（叶绿素a）</strong></td><td>监测藻类浓度</td><td>红潮（Red Tide）的指标</td></tr>
+        <tr><td><strong>E. coli（大肠杆菌）</strong></td><td>海滩水质指标</td><td>老师说「I want you to highlight E. coli」；温度影响其活性</td></tr>
+        <tr><td><strong>SS（Suspended Solids）悬浮固体</strong></td><td>影响浊度</td><td>「really important, you will come across this word a lot in your project」</td></tr>
+        <tr><td><strong>Turbidity（浊度）</strong></td><td>高=水浑</td><td>老师说「make sure you know the word turbidity」；施工挖泥造成</td></tr>
+        <tr><td><strong>Salinity（盐度）</strong></td><td>沿海项目</td><td>影响生态系统物种分布</td></tr>
+        <tr><td><strong>pH</strong></td><td>酸碱度</td><td>可现场测量（in situ）</td></tr>
+        <tr><td><strong>Temperature（温度）</strong></td><td>影响DO和E. coli</td><td>「temperature is really important because it relates to E. coli」</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 香港海滩数字（老师课上提及）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>香港共有 42 个 Gazette Beaches（法定泳滩）</strong>
+            <div class="zh">→ 由LCSD（康乐及文化事务署）管理；分布于全港各区<br>→ 其余为Non-Gazette Beach（非法定泳滩）：不受政府直接管理</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 海滩水质影响因素（6项）</div>
+      <div class="items">
+        <div class="item item-plain"><span class="item-icon">🌧️</span><div class="item-text"><strong>Rainfall（降雨）</strong><div class="zh">→ 引发地表径流（surface runoff），带入细菌和污染物</div></div></div>
+        <div class="item item-plain"><span class="item-icon">🦠</span><div class="item-text"><strong>E. coli 含量</strong><div class="zh">→ 粪便污染指标；受温度影响代谢活性</div></div></div>
+        <div class="item item-plain"><span class="item-icon">🌊</span><div class="item-text"><strong>Tidal Flow（潮流）</strong><div class="zh">→ 稀释污染物；「tidal movement provides this burst（涨水）」</div></div></div>
+        <div class="item item-plain"><span class="item-icon">💧</span><div class="item-text"><strong>Turbidity（浊度）</strong><div class="zh">→ 施工或暴雨后增高；影响水下光线和生态</div></div></div>
+        <div class="item item-plain"><span class="item-icon">🏭</span><div class="item-text"><strong>Sewage（污水）</strong><div class="zh">→ 污水处理厂出水、村庄排污</div></div></div>
+        <div class="item item-plain"><span class="item-icon">💨</span><div class="item-text"><strong>Onshore Wind（向岸风）</strong><div class="zh">→ 老师说「highlight this word，onshore wind affects E. coli transport」</div></div></div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 重要提醒（考试关键）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Lec 6 Guest Lecture（噪音）同样会考试</strong>
+            <div class="zh">→ 老师原话：「guest lecture will also be tested」→ Lec6内容不可忽略</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>量化（Quantify）是必须的</strong>
+            <div class="zh">→ 老师再次强调：「you need to know the word quantify，it should have numbers」</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>Exceedances（超标）是EIA需要避免的</strong>
+            <div class="zh">→ 老师说「we do not wish to see any exceedances」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 6 ============ -->
+<div id="lec6" class="lec-section">
+  <div class="lec-header" style="background: var(--lec6);">
+    <div>
+      <div class="subtitle">Week 6 · Guest Lecture · Dr. LEUNG Ho Wing (EPD)</div>
+      <h2>Lec 6 — 噪音管制 Noise Control</h2>
+    </div>
+    <div class="lec-num">06</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 立法框架（与Lec4/5类比）</div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:var(--lec6);">
+          <h4>NCO — Noise Control Ordinance (1989)</h4>
+          <p>噪音管制条例<br>→ 1989年实施（类比WPCO 1980）<br>→ 比EIAO更早存在</p>
+        </div>
+        <div class="compare-box" style="border-color:var(--lec6);">
+          <h4>ASR — Area Sensitivity Rating</h4>
+          <p>地区噪音敏感级别<br>→ A类（最严）/ B类（中等）/ C类（最宽松）<br>→ 决定适用的ANL（允许噪音水平）</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 噪音描述符（必记区别）</div>
+      <table class="vtable">
+        <tr><th>符号</th><th>名称</th><th>中文</th><th>用途</th></tr>
+        <tr><td><strong>Leq</strong></td><td>Equivalent Continuous Sound Level</td><td>等效连续声级</td><td>施工/固定噪音评估标准</td></tr>
+        <tr><td><strong>L10</strong></td><td>Level exceeded 10% of time</td><td>10%超越声级</td><td>交通噪音标准（CRTN法，70dB(A)）</td></tr>
+        <tr><td><strong>L90</strong></td><td>Level exceeded 90% of time</td><td>背景噪音</td><td>固定噪音源评估基准</td></tr>
+        <tr><td><strong>Lmax</strong></td><td>Maximum level</td><td>最大瞬时声级</td><td>评估冲击性噪音（如撞桩）</td></tr>
+        <tr><td><strong>SPL</strong></td><td>Sound Pressure Level</td><td>声压级</td><td>在特定点测量的声音强度</td></tr>
+        <tr><td><strong>SWL</strong></td><td>Sound Power Level</td><td>声功率级</td><td>声源本身的能量（机器出厂标注）</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 施工噪音控制体系（CNP系统）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>CNP — Construction Noise Permit（施工噪音许可证）</strong>
+            <div class="zh">→ 正常工作时间（0700-1900，周一至六）外施工须申请<br>→ 申请需提交：工程描述 + 噪音评估 + 缓解措施</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Designated Areas（指定地区）</strong>
+            <div class="zh">→ 规定时间内不允许某些施工活动的区域<br>→ 与ASR和ANL一起使用</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>SPME / PCW（施工噪音管制两类工具）</strong>
+            <div class="zh">→ <strong>SPME = Special/Specified Powered Mechanical Equipment</strong>（e.g. hand-held breaker, bulldozer, dump truck）— 须申请许可证<br>→ <strong>PCW = Prescribed Construction Works</strong>（e.g. formwork, scaffolding, handling rubble, hammering）— 须在指定时间内完成</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 施工噪音评估8步程序（Construction Noise Assessment Procedure / TM-GW Based Approach）</div>
+      <div class="flow" style="flex-direction:column;align-items:flex-start;gap:3px;">
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">1</span><span style="font-size:13px;"><strong>Information Collection</strong> <span class="pill pill-red">MOST IMPORTANT（PPT原文）</span><br><span style="color:#666;font-size:12px;">→ 收集项目资料、现有噪音资料</span></span></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">2</span><span style="font-size:13px;"><strong>Identify NSRs</strong>（识别噪音敏感受体）<br><span style="color:#666;font-size:12px;">→ 住宅/学校/医院/度假区等</span></span></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">3</span><span style="font-size:13px;"><strong>Determine Noise Criteria</strong>（确定噪音标准）<br><span style="color:#666;font-size:12px;">→ 按ASR级别查ANL表</span></span></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">4</span><span style="font-size:13px;"><strong>Baseline Monitoring</strong>（基准监测）<br><span style="color:#666;font-size:12px;">→ 测量现有环境噪音水平</span></span></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">5</span><span style="font-size:13px;"><strong>Predict Impacts</strong>（预测影响）<br><span style="color:#666;font-size:12px;">→ 用模型计算施工/运营期噪音水平</span></span></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">6</span><span style="font-size:13px;"><strong>Assess Significance</strong>（评估显著性）<br><span style="color:#666;font-size:12px;">→ 对比标准，判断是否超标</span></span></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">7</span><span style="font-size:13px;"><strong>Mitigation Measures</strong>（缓解措施）<br><span style="color:#666;font-size:12px;">→ 源头/传播路径/受体三级控制</span></span></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span style="background:#ffebee;color:#c62828;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">8</span><span style="font-size:13px;"><strong>Residual Impact</strong>（残余影响）<br><span style="color:#666;font-size:12px;">→ 实施缓解后的最终噪音水平</span></span></div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 缓解措施三级层次（必须按顺序提）</div>
+      <div class="items">
+        <div class="item item-note" style="border-color:#c62828;background:#fff3f3;">
+          <span class="item-icon">🔇</span>
+          <div class="item-text">
+            <strong>① Source Control（源头控制）</strong>
+            <div class="zh">→ 最优先 | 使用安静机械 / 低噪音工法 / SPME替代撞桩</div>
+          </div>
+        </div>
+        <div class="item item-note" style="border-color:#e65100;background:#fff8f0;">
+          <span class="item-icon">🔇</span>
+          <div class="item-text">
+            <strong>② Path Control（传播路径控制）</strong>
+            <div class="zh">→ 次优先 | 噪音屏障、噪音围板、绿化缓冲带</div>
+          </div>
+        </div>
+        <div class="item item-plain">
+          <span class="item-icon">🔇</span>
+          <div class="item-text">
+            <strong>③ Receiver Control（受体控制）</strong>
+            <div class="zh">→ 最后手段 | 加装隔音窗、外加隔音材料</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📋 关键参考文件（Annex & GN）</div>
+      <div class="items">
+        <div class="item item-plain"><span class="item-icon">📄</span><div class="item-text"><strong>Annex 5（TM附件）</strong><div class="zh">→ 施工噪音评估准则</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📄</span><div class="item-text"><strong>Annex 13（TM附件）</strong><div class="zh">→ 固定噪音源评估准则</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📄</span><div class="item-text"><strong>GN9（指引说明）</strong><div class="zh">→ 固定噪音源评估指引</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📄</span><div class="item-text"><strong>GN12（指引说明）</strong><div class="zh">→ <strong>道路交通噪音</strong>影响评估指引（Traffic Noise Impact Assessment）；⚠️ 勿与施工噪音评估混淆</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📄</span><div class="item-text"><strong>GN16（指引说明）</strong><div class="zh">→ 交通噪音（CRTN法）评估指引</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📄</span><div class="item-text"><strong>CRTN法</strong><div class="zh">→ 英国道路交通噪音预测法；交通噪音标准：L10 = 70dB(A)</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ EXAM HOT SPOT ============ -->
+
+<!-- ============ LEC 7 ============ -->
+<div id="lec7" class="lec-section">
+  <div class="lec-header" style="background: #2e7d32;">
+    <div>
+      <div class="subtitle">Week 7 · Jin Ling老师（接替Samantha从第7周起）</div>
+      <h2>Lec 7 — 生态影响评估 EcoIA</h2>
+    </div>
+    <div class="lec-num">07</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ Jin老师开场强调（考试框架提示）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>「EIA流程图 — This must appear in your final exam. This diagram appears in every final exam.」</strong>
+            <div class="zh">→ Jin老师在开头第一件事就是讲EIA流程；意味着：EIA基础流程是必考内容</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>所有技术评估（空气/水/噪音/生态）的通用框架相同</strong>
+            <div class="zh">→ 老师原话：「What's the basic framework after you've learned air, water, noise?」<br>→ 框架：识别污染源 → 识别Sensitive Receivers → 预测影响 → 缓解措施 → 残余影响</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>「I will never, ever ask you what is what.」</strong>
+            <div class="zh">→ Jin老师考试风格：不考纯定义，考的是理解原则 + 给例子 + 建议缓解措施</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 最重要的生态敏感受体（Jin老师反复强调）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">🐬</span>
+          <div class="item-text">
+            <strong>Chinese White Dolphins（中华白海豚）— 最高频考点</strong>
+            <div class="zh">→ 老师原话：「Always remember Chinese white dolphins. Chinese white dolphins most frequently occurred in final exam.」<br>→ 分布：珠江口/港珠澳大桥区域；用Sonar定位猎物<br>→ 受影响：水下施工噪音（打桩）/ 船速过快 / 水质恶化</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">🪸</span>
+          <div class="item-text">
+            <strong>Corals（珊瑚）— 第二重要</strong>
+            <div class="zh">→ 老师原话：「Chinese white dolphins, corals, just remember, these two important species.」<br>→ 分布：西贡/东部/东南部水质清澈区域（Sai Kung一带）</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🐬</span>
+          <div class="item-text">
+            <strong>Finless Porpoise（无鳍鼠海豚）<em>Neophocaena phocaenoides</em> — ⭐Slides重点</strong>
+            <div class="zh">→ <strong>Slides原文（Lec 7 Slide 67）：「The Indo-Pacific Hump-backed Dolphin (Sousa chinensis) and the Finless Porpoise (Neophocaena phocaenoides) are the ONLY species of marine mammal regularly sighted in HK waters」</strong><br>→ <strong>Slide 68：「Finless porpoise is the most common and most important species of cetacean in the Lamma Island area」</strong><br>→ 老师课堂强调记CWD + Corals两个；但slides明确指出CWD + Finless Porpoise = 香港仅有的两种常见海洋哺乳类<br>→ Lec 8 LNG案例（Slide 108）也以CWD + Finless Porpoise作为关键生态影响受体</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">📌</span>
+          <div class="item-text">
+            <strong>其他敏感受体（知道即可，不需逐一记忆）</strong>
+            <div class="zh">→ 树蛙(Tree Frogs)、蜻蜓(Dragonflies)、马蹄蟹(Horseshoe Crabs)、候鸟(Migratory Birds)、Sea Eagles（白腹海雕）<br>→ 老师说：「You don't have to remember every name, just pick up some important ones」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 国际框架 — 必知4个（老师逐一讲解）</div>
+      <table class="vtable">
+        <tr><th>公约/框架</th><th>全称</th><th>保护对象</th><th>老师强调点</th></tr>
+        <tr><td><strong>Ramsar Convention</strong><br>拉姆萨尔公约</td><td>Convention on Wetlands of International Importance especially as Waterfowl Habitat (1971)</td><td>国际重要湿地 → 水鸟/候鸟栖息地</td><td>「just remember wetland + water birds/migratory birds」<br>香港米埔内后海湾(Maipo Inner Deep Bay)是Ramsar Site</td></tr>
+        <tr><td><strong>IUCN Red List</strong><br>红色名录</td><td>International Union for Conservation of Nature Red List</td><td>全球物种灭绝风险评估</td><td>每4年更新；级别：Extinct → Critically Endangered → Endangered → Vulnerable → Least Concern<br>中华白海豚 = Vulnerable（易危）</td></tr>
+        <tr><td><strong>CITES</strong><br>濒危物种贸易公约</td><td>Convention on International Trade in Endangered Species of Wild Fauna and Flora</td><td>禁止受保护物种的跨境贸易</td><td>「no more ivory trade」；香港受法律约束<br>老师自身例子：向日本研究者转移中华白海豚皮肤细胞需AFCD批准</td></tr>
+        <tr style="background:#e8f5e9;"><td><strong>IFC Performance Standards</strong><br>⭐ 国际金融公司绩效标准</td><td>International Finance Corporation (IFC) Performance Standards — <strong>PS6: Biodiversity Conservation and Sustainable Management of Living Natural Resources</strong></td><td>向IFC或赤道原则银行（Equator Principle Banks）申请融资的全球项目的生物多样性保护要求</td><td>老师第4个讲的框架（Slide列第4位）：「Introduced for projects globally that seek finance from the IFC or any of the Equator Principle banks」<br>PS6强调：保育区外的可持续生物多样性管理 + 施工后栖息地恢复措施</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 香港生态重要地点（了解即可）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>香港沿岸生物多样性热点</strong>
+            <div class="zh">→ 老师原话：「In Hong Kong's coastal area, we contribute to 25% of total China's coastal biodiversity」<br>→ 海岸面积极小，但贡献中国沿岸生物多样性25%；包括各种鱼类、螃蟹、虾等</div>
+          </div>
+        </div>
+        <div class="item item-plain">
+          <span class="item-icon">🌿</span>
+          <div class="item-text">
+            <strong>米埔内后海湾 Maipo Inner Deep Bay — Ramsar Site（国际重要湿地）⭐</strong>
+            <div class="zh">→ <strong>Slide 21原文：「Mai Po Inner Deep Bay Ramsar Site is the 7th Ramsar Site of China」</strong>（中国第7个Ramsar Site，1995年9月4日指定）<br>→ 面积约1,500公顷；包括潮间带滩涂、红树林、芦苇丛<br>→ 由WWF管理；包括深湾缓冲区；支持70,000只越冬水鸟（最高记录）<br>→ 支持全球约20%的黑脸琵鹭（Black-faced Spoonbill）越冬</div>
+          </div>
+        </div>
+        <div class="item item-plain">
+          <span class="item-icon">🌲</span>
+          <div class="item-text">
+            <strong>Country Parks（郊野公园）</strong>
+            <div class="zh">→ 香港大部分土地受郊野公园/特别地区保护；另有Sites of Special Scientific Interest (SSSIs)</div>
+          </div>
+        </div>
+        <div class="item item-plain">
+          <span class="item-icon">🌊</span>
+          <div class="item-text">
+            <strong>Marine Parks（海洋公园）— 珊瑚区 + 中华白海豚区</strong>
+            <div class="zh">→ 东部/西贡一带：珊瑚 + finless porpoises<br>→ 西部/大屿山一带：中华白海豚Marine Park<br>→ 海洋公园内限速、禁止拖网捕鱼</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ EcoIA 缓解层次（EcoIA 尤其强调「Compensate」以应对栖息地损失）</div>
+      <div class="flow" style="gap:8px;">
+        <span class="flow-step" style="background:#e8f5e9;border-color:#2e7d32;">① Avoid<br><small>避开敏感栖息地</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#fff3e0;border-color:#e65100;">② Minimize<br><small>减少影响范围/程度</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#ffebee;border-color:#c62828;">③ Compensate<br><small>⭐EcoIA特别强调：<br>栖息地再造/补偿</small></span>
+      </div>
+      <table class="vtable" style="margin-top:10px;">
+        <tr><th>层次</th><th>老师举的真实例子</th></tr>
+        <tr><td><strong style="color:#2e7d32;">① Avoid</strong></td><td>铁路支线改变选线，绕开<strong>Long Valley（塱原）</strong>生态重要农业区 → 零影响（老师Lec 7课堂举例，称Long Valley「very, very important site of conservation status」）</td></tr>
+        <tr><td><strong style="color:#e65100;">② Minimize</strong></td><td>部署silt curtain（泥幕）防止悬浮固体扩散；要求施工船只在中华白海豚栖息地范围内减速；降低施工速率减少栖息地损失</td></tr>
+        <tr><td><strong style="color:#c62828;">③ Compensate</strong></td><td><strong>香港湿地公园（HK Wetland Park）</strong>，天水围Tin Shui Wai — 因开发占用湿地，在别处重建同等面积或更大、更优质湿地作生态补偿</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 施工期关键缓解措施（考试常考）</div>
+      <div class="items">
+        <div class="item item-note">
+          <span class="item-icon">🛡️</span>
+          <div class="item-text">
+            <strong>Silt Curtain（泥幕/围泥幕）— 作用机制⭐</strong>
+            <div class="zh">→ 挖泥/填海施工时防止悬浮固体(SS)扩散的首要措施<br>→ <strong>机制（老师明确说）：「The particles would block the gills of fish」</strong> → 悬浮颗粒堵塞鱼鳃 → 鱼类死亡<br>→ Silt curtain限制颗粒扩散范围 → 防止大规模鱼类死亡</div>
+          </div>
+        </div>
+        <div class="item item-note">
+          <span class="item-icon">🛡️</span>
+          <div class="item-text">
+            <strong>Dredging 挖泥施工影响链</strong>
+            <div class="zh">→ 挖泥 → 悬浮固体(SS)↑ → 浊度升高 → 堵塞鱼鳃 → 鱼类大规模死亡 → 生态影响<br>→ 缓解：silt curtain（限制扩散）+ 施工船限速（保护CWD）+ 分段施工</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ EcoIA 基线调查时长 — 3档（Slides 87-88，EIAO Study Brief要求）</div>
+      <table class="vtable">
+        <tr><th>时长</th><th>适用条件</th></tr>
+        <tr><td><strong>6个月</strong></td><td>• 研究范围内栖息地多样性低至中等<br>• 已知物种明显季节性变化有限<br>• 若有溪流/湿地则须确保雨季充分调查</td></tr>
+        <tr><td><strong>9个月</strong></td><td>• 栖息地相对多样<br>• 研究范围内已知存在明显的野生动物季节性规律</td></tr>
+        <tr><td><strong style="color:#c62828;">12个月</strong></td><td>• 研究范围内包含TM Annex 8所列重要栖息地类型<br>• 已知存在具明显季节性的目标物种</td></tr>
+      </table>
+      <div style="margin-top:6px;font-size:11px;color:#666;background:#f5f5f5;padding:5px 8px;border-radius:4px;">注：基线调查数据有效期 = 完成后36个月；其后须通过实地调查验证有效性方可用于EIA（Slide 89）</div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ EcoIA 关键定位（老师强调）</div>
+      <div class="item item-star" style="margin-bottom:8px;">
+        <span class="item-icon">⭐</span>
+        <div class="item-text">
+          <strong>「EcoIA is a planning tool, not an academic or research study.」</strong>
+          <div class="zh">→ 时间有限，不能像学术研究一样无限深入；需要在有限时间内识别关键保护物种和栖息地<br>→ 目的：提供足够且充分的生态数据，以清晰、稳健地识别、预测和评估潜在生态影响</div>
+        </div>
+      </div>
+      <div class="item item-key" style="margin-bottom:8px;">
+        <span class="item-icon">🔑</span>
+        <div class="item-text">
+          <strong>EIAO 1998 — 法定化转折点⭐</strong>
+          <div class="zh">→ 老师原话：「Before EIAO was enacted in 1998, EIA is administrative. After EIAO was enacted in 1998, EIA becomes a mandatory, statutory process.」<br>→ 1998年前：EIA属行政性（government's discretion，政府酌情决定）<br>→ 1998年后：EIA成为法定强制程序（mandatory/statutory），不可绕过</div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:#2e7d32;">
+          <h4>EcoIA 特有特征（vs 空气/水/噪音）</h4>
+          <p>• 更描述性(descriptive)，非纯数字<br>• 无固定单一标准（不像PM10 ≤10μg/m³）<br>• 物种间相互作用 + 物种与栖息地交互作用，需专业判断<br>• 需要AFCD（渔农自然护理署）介入<br>• EcoIA尤其强调Compensate（当Avoid和Minimize不能完全解决栖息地损失时，需habitat re-provision作补偿）</p>
+        </div>
+        <div class="compare-box">
+          <h4>AFCD — Agriculture, Fisheries & Conservation Dept</h4>
+          <p>渔农自然护理署<br>→ 向DEP提供生态/渔业意见<br>→ 老师在Lec 7和10都提到<br>→ 在CITES下负责审批濒危物种相关活动（老师亲身例子）</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 8 ============ -->
+<div id="lec8" class="lec-section">
+  <div class="lec-header" style="background: #558b2f;">
+    <div>
+      <div class="subtitle">Week 8 · Jin Ling老师</div>
+      <h2>Lec 8 — 景观与视觉影响评估 LVIA</h2>
+    </div>
+    <div class="lec-num">08</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">📌 LVIA 6步评估框架（Slide 3 — 宏观流程）</div>
+      <div class="flow" style="gap:4px;flex-wrap:wrap;">
+        <span class="flow-step" style="background:#f1f8e9;border-color:#558b2f;font-size:11px;">Step 1<br>Identification<br><small>识别景观/视觉影响</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#f1f8e9;border-color:#558b2f;font-size:11px;">Step 2<br>Description<br><small>描述现有景观/视觉资源</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#f1f8e9;border-color:#558b2f;font-size:11px;">Step 3<br>Laws/Criteria<br><small>相关法规/标准</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#fff3e0;border-color:#e65100;font-size:11px;">Step 4<br>Predict Impact<br><small>预测影响</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#fff3e0;border-color:#e65100;font-size:11px;">Step 5<br>Assess Significance<br><small>评估显著性</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#ffebee;border-color:#c62828;font-size:11px;">Step 6<br>Mitigation<br><small>缓解措施</small></span>
+      </div>
+      <div style="margin-top:6px;font-size:11px;color:#666;background:#f5f5f5;padding:5px 8px;border-radius:4px;">→ 与其他技术评估章节（空气/水/噪音/生态）的5步Broad Approach框架类似；细化后即为9问框架</div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 LVIA 核心概念定义（必须区分两者）</div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:#558b2f;">
+          <h4>Landscape Resources（景观资源）</h4>
+          <p>植被、地形、地质特征、水体河流、文化景观元素<br>→ 「合起来形成地区的landscape character（景观特色）」<br>→ 不只是单一河流或单一植物，是综合整体</p>
+        </div>
+        <div class="compare-box" style="border-color:#558b2f;">
+          <h4>Visual Resources（视觉资源）</h4>
+          <p>景观的视觉可见性 → 直接影响房产价值<br>→ 老师举例：窗外的海景/山景被新建筑遮挡<br>→ 「Visual impact has direct monetary impact on property value」</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ LVIA 9个核心问题（老师说「basically, it answers the following 9 questions」）</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="background:#f1f8e9;border:1px solid #c8e6c9;border-radius:6px;padding:8px;font-size:12px;"><strong>Q1</strong> 评估方法论是什么？<br><span style="color:#666;">How do we conduct LVIA? Outline the methodology.</span></div>
+        <div style="background:#f1f8e9;border:1px solid #c8e6c9;border-radius:6px;padding:8px;font-size:12px;"><strong>Q2</strong> 现状是什么？<br><span style="color:#666;">What is there now? → Baseline landscape survey，描述现有景观资源（500m研究范围内）</span></div>
+        <div style="background:#f1f8e9;border:1px solid #c8e6c9;border-radius:6px;padding:8px;font-size:12px;"><strong>Q3</strong> 景观/视觉资源的重要性如何？<br><span style="color:#666;">Rate the sensitivity and value of landscape/visual resources</span></div>
+        <div style="background:#e3f2fd;border:2px solid #1976d2;border-radius:6px;padding:8px;font-size:12px;"><strong>Q4 ⭐</strong> 项目是什么/何时/如何？<br><span style="color:#666;">What, when, and how of the project — describe what will be constructed and operated（<strong>原HTML缺失此问！</strong>）</span></div>
+        <div style="background:#fff3e0;border:1px solid #ffe0b2;border-radius:6px;padding:8px;font-size:12px;"><strong>Q5</strong> 项目造成的变化幅度有多大？<br><span style="color:#666;">Magnitude of Change — describe and assess the magnitude of change imposed on existing landscape resources</span></div>
+        <div style="background:#fff3e0;border:1px solid #ffe0b2;border-radius:6px;padding:8px;font-size:12px;"><strong>Q6</strong> 对景观的影响是什么？<br><span style="color:#666;">What are the impacts on landscape? → Based on Sensitivity × Magnitude (qualitative matrix)</span></div>
+        <div style="background:#fff8e1;border:1px solid #ffd54f;border-radius:6px;padding:8px;font-size:12px;"><strong>Q7</strong> 如何缓解影响？<br><span style="color:#666;">How will the impacts be mitigated? → Avoid → Minimize；注意who/when/where/to what standard</span></div>
+        <div style="background:#ffebee;border:1px solid #ffcdd2;border-radius:6px;padding:8px;font-size:12px;"><strong>Q8</strong> 缓解措施效果如何？<br><span style="color:#666;">How effective are the mitigation measures? → Describe residual impacts after mitigation</span></div>
+        <div style="background:#fce4ec;border:2px solid #c62828;border-radius:6px;padding:8px;font-size:12px;"><strong>Q9 ⭐</strong> 项目结论是什么？（4类 per TM Annex 10）<br><span style="color:#c62828;font-weight:600;">Beneficial / Acceptable / Acceptable with Mitigation / Undetermined</span><br><span style="color:#888;font-size:11px;">注：依据TM Annex 10（Slide 41），官方只有4类结论；老师课堂提及「unacceptable」但不属于TM官方分类</span></div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#666;background:#f5f5f5;padding:6px 8px;border-radius:4px;">⚠️ 注意：Q4（项目描述 what/when/how）是易漏考点；Q9是最终结论（4分类，依TM Annex 10）</div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 影响显著性判断 — 定性矩阵（Qualitative Matrix）</div>
+      <div style="background:#f5f5f5;border:2px solid #558b2f;border-radius:8px;padding:12px;font-size:13px;">
+        <strong>Impact Significance = f(Sensitivity of Landscape/VSR, Magnitude of Change)</strong>
+        <div style="color:#666;font-size:12px;margin-top:6px;">→ 老师原话：「kind of qualitative risk assessment framework」— <strong>不是数学公式</strong>，而是定性矩阵<br>→ 矩阵两轴：横轴 = Magnitude of Change（Negligible→Small→Intermediate→Large）；纵轴 = Sensitivity of Receptors（Low→Medium→High）<br>→ 读法：「Read across the two axes」→ 交叉得出显著性等级：Negligible / Moderate / Significant<br>→ Significant可以是adverse（不利）也可以是beneficial（有利）—— 新建筑若与自然景观高度融合可beneficially enhance landscape</div>
+        <div style="margin-top:8px;font-size:12px;">
+          <table class="vtable">
+            <tr><th>Magnitude ↓ / Sensitivity →</th><th style="color:#2e7d32;">Low</th><th style="color:#e65100;">Medium</th><th style="color:#c62828;">High</th></tr>
+            <tr><td><strong>Large</strong></td><td>Moderate</td><td>Significant</td><td style="background:#ffebee;font-weight:700;">Significant</td></tr>
+            <tr><td><strong>Intermediate</strong></td><td>Slight/Negligible</td><td>Moderate</td><td>Significant</td></tr>
+            <tr><td><strong>Small</strong></td><td>Negligible</td><td>Slight</td><td>Moderate</td></tr>
+            <tr><td><strong>Negligible</strong></td><td>Negligible</td><td>Negligible</td><td>Slight</td></tr>
+          </table>
+        </div>
+        <div style="color:#888;font-size:11px;margin-top:6px;">老师例子：3根烟囱突然出现在美丽山脉旁 → Large magnitude + High sensitivity → Significant adverse impact<br>老师例子：Lamma电厂烟囱案例（Week 8习题）— 用于LVIA练习</div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ LVIA 研究范围 — 500m边界</div>
+      <div class="item item-star">
+        <span class="item-icon">📐</span>
+        <div class="item-text">
+          <strong>研究范围：500m from work's limit of Designated Project (DP)</strong>
+          <div class="zh">→ 老师原话：「The assessment or study area is usually 500 meters from work's limit of DP」<br>→ 须包含临时工地（temporary work sites）：stockpiles（堆料场）、barging sites（卸货码头）等<br>→ 需进行植被调查（vegetation survey）和 broad brush tree survey<br>→ 研究精细程度取决于项目规模和基线复杂度</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 VSR — Visual Sensitive Receivers（视觉敏感受体）</div>
+      <div class="items">
+        <div class="item item-note">
+          <span class="item-icon">👁️</span>
+          <div class="item-text">
+            <strong>须识别所有可能的VSR（个体+群体，垂直+水平方向）</strong>
+            <div class="zh">→ 类别：Permanent（永久性，如居民）vs Transient（临时性，如游客/行人）<br>→ 施工期(Construction phase)与运营期(Operational phase)的VSR可能不同<br>→ 须评估每类VSR的sensitivity和受影响magnitude</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 LVIA vs EcoIA 的关键区别</div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:#558b2f;">
+          <h4>LVIA 关注</h4>
+          <p>• 美学（aesthetics） — 好不好看<br>• 景观整体特色（character）和综合整体<br>• 视觉愉悦感 + 房产价值<br>• 定性矩阵评估（qualitative matrix）</p>
+        </div>
+        <div class="compare-box" style="border-color:#2e7d32;">
+          <h4>EcoIA 关注</h4>
+          <p>• 生物多样性 — 物种数量/丰富度<br>• 栖息地功能性（individual elements）<br>• 保育状态和濒危程度<br>• AFCD（渔农自然护理署）提供意见</p>
+        </div>
+      </div>
+      <div style="margin-top:6px;font-size:12px;color:#666;background:#f5f5f5;padding:6px 8px;border-radius:4px;">→ 老师：「EcoIA looks at individual elements (woodland, wetland, creek); LVIA looks at the entirety — how beautiful overall they are」<br>→ 两者有关联：LVIA baseline study should be consistent with baseline info in EcoIA</div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 参考文件 + LVIA结论分类</div>
+      <div class="items">
+        <div class="item item-plain">
+          <span class="item-icon">📄</span>
+          <div class="item-text">
+            <strong>EIAO Guidance Note for LVIA</strong>
+            <div class="zh">→ 「Preparation of Landscape and Visual Impact Assessment under EIAO」<br>→ 老师说「within the EIAO guidance notes」</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>LVIA项目结论 — 4类（TM Annex 10官方分类，Slide 41）</strong>
+            <div class="zh">
+              <span class="pill pill-green">Beneficial</span> 有利影响 — 开发提升了景观/视觉质量<br>
+              <span class="pill pill-blue">Acceptable</span> 可接受 — 无显著不利影响<br>
+              <span class="pill pill-orange">Acceptable with Mitigation</span> 须缓解后可接受<br>
+              <span class="pill pill-purple">Undetermined</span> 待定 — 需更多资料才能判断<br>
+              <span style="color:#888;font-size:11px;">⚠️「Unacceptable」不在TM Annex 10官方4类中；老师课堂提到但属口头说明</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 9 ============ -->
+<div id="lec9" class="lec-section">
+  <div class="lec-header" style="background: #6d4c41;">
+    <div>
+      <div class="subtitle">Week 9 · Jin Ling老师</div>
+      <h2>Lec 9 — 文化遗产影响评估 CHIA</h2>
+    </div>
+    <div class="lec-num">09</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">🔑 立法与机构</div>
+      <div class="items">
+        <div class="item item-key">
+          <span class="item-icon">🏛️</span>
+          <div class="item-text">
+            <strong>Antiquities and Monuments Ordinance（古物古迹条例）</strong>
+            <div class="zh">→ 文化遗产的主要法律依据；AMO（古物古迹办事处）执行</div>
+          </div>
+        </div>
+        <div class="item item-key">
+          <span class="item-icon">🏛️</span>
+          <div class="item-text">
+            <strong>AMO — Antiquities and Monuments Office（古物古迹办事处）</strong>
+            <div class="zh">→ 隶属康乐及文化事务署；向DEP提供文化遗产影响意见<br>→ 相当于AFCD（生态）、PlanD（景观）的对应机构</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 历史建筑评级制度（Grade I/II/III — 考试会考）</div>
+      <table class="vtable">
+        <tr><th>评级</th><th>定义</th><th>处理原则</th></tr>
+        <tr><td><strong style="color:#c62828;">Grade I</strong></td><td>Buildings of outstanding merits（杰出历史建筑）</td><td>尽一切努力保育 <span class="pill pill-red">最高保护</span></td></tr>
+        <tr><td><strong style="color:#e65100;">Grade II</strong></td><td>Buildings of special merits（特别价值建筑）</td><td>应尽力保育，但可酌情处理</td></tr>
+        <tr><td><strong style="color:#2e7d32;">Grade III</strong></td><td>Buildings of some merits（具一定价值建筑）</td><td>保育为宜；可考虑其他方案；作为后备古迹名单</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 历史建筑评级6个准则（必背）</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+        <div style="background:#efebe9;border-radius:6px;padding:8px;font-size:12px;text-align:center;"><strong>① Historical Interest</strong><br>历史价值</div>
+        <div style="background:#efebe9;border-radius:6px;padding:8px;font-size:12px;text-align:center;"><strong>② Architectural Merit</strong><br>建筑价值</div>
+        <div style="background:#efebe9;border-radius:6px;padding:8px;font-size:12px;text-align:center;"><strong>③ Group Value</strong><br>组合价值</div>
+        <div style="background:#efebe9;border-radius:6px;padding:8px;font-size:12px;text-align:center;"><strong>④ Social Value &amp; Local Interest</strong><br>社会价值</div>
+        <div style="background:#efebe9;border-radius:6px;padding:8px;font-size:12px;text-align:center;"><strong>⑤ Authenticity</strong><br>真实性</div>
+        <div style="background:#efebe9;border-radius:6px;padding:8px;font-size:12px;text-align:center;"><strong>⑥ Rarity</strong><br>稀有性</div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ CHIA 5步流程（与其他评估框架一致）</div>
+      <div class="flow" style="gap:4px;flex-wrap:wrap;">
+        <span class="flow-step" style="background:#efebe9;border-color:#6d4c41;font-size:12px;">Step 1<br>Screening<br><small>判断是否需要CHIA</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#efebe9;border-color:#6d4c41;font-size:12px;">Step 2<br>Scoping<br><small>定义研究范围</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#efebe9;border-color:#6d4c41;font-size:12px;">Step 3<br>Baseline Studies<br><small>了解现状</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#efebe9;border-color:#6d4c41;font-size:12px;">Step 4<br>Assessment<br><small>识别影响来源和性质</small></span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step" style="background:#efebe9;border-color:#6d4c41;font-size:12px;">Step 5<br>Mitigation &amp; Monitoring<br><small>最小化/消除负面影响</small></span>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 对文化遗产的4类潜在影响（PPT原文）</div>
+      <div class="items">
+        <div class="item item-note"><span class="item-icon">⚠️</span><div class="item-text"><strong>Destruction 破坏</strong><div class="zh">→ 直接物理破坏历史建筑或遗址</div></div></div>
+        <div class="item item-note"><span class="item-icon">⚠️</span><div class="item-text"><strong>Inundation 淹没</strong><div class="zh">→ 洪水/水坝造成遗址被水淹没</div></div></div>
+        <div class="item item-note"><span class="item-icon">⚠️</span><div class="item-text"><strong>Disturbance 骚扰</strong><div class="zh">→ 施工振动、噪音影响历史建筑结构稳定性</div></div></div>
+        <div class="item item-note"><span class="item-icon">⚠️</span><div class="item-text"><strong>Disruption 贯穿/中断</strong><div class="zh">→ 道路/隧道穿过历史地区，割断其完整性</div></div></div>
+      </div>
+      <div style="margin-top:6px;font-size:12px;color:#c62828;">⚠️ 「Archaeological resources are nonrenewable and could be invaluable!」— PPT原文强调</div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 建筑年代准则（EIA评估标准）</div>
+      <table class="vtable">
+        <tr><th>建筑年代</th><th>处理方式</th></tr>
+        <tr><td><strong>建于1870年前</strong>（几乎原貌保存）</td><td>必须纳入考虑</td></tr>
+        <tr><td><strong>1870-1920年间</strong></td><td>应纳入考虑，但酌情处理</td></tr>
+        <tr><td><strong>1920年后</strong>（历史意义重大且建筑质量高的）</td><td>可纳入，但标准更严</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 4个重要实施原则（Important Notes — PPT来源）</div>
+      <div class="items">
+        <div class="item item-note"><span class="item-icon">1️⃣</span><div class="item-text"><strong>规划阶段应避免侵入重要文化遗产地点</strong><div class="zh">→ Case: KCRC东铁延线（红磡至尖沙咀）</div></div></div>
+        <div class="item item-note"><span class="item-icon">2️⃣</span><div class="item-text"><strong>对文化遗产的影响必须在EIA阶段研究，经DEP审批（征询ACE和AMO意见）</strong><div class="zh">→ ⚠️ ACE/AMO是咨询/顾问角色，最终审批者是DEP/主管当局<br>→ Case: 西铁</div></div></div>
+        <div class="item item-note"><span class="item-icon">3️⃣</span><div class="item-text"><strong>可通过EP条件保护文化遗产地点</strong><div class="zh">→ 例：「历史建筑周围至少设置5m缓冲区」（West Rail Condition 3.10c）</div></div></div>
+        <div class="item item-note"><span class="item-icon">4️⃣</span><div class="item-text"><strong>EP可要求施工期间进行振动监测</strong><div class="zh">→ 振动限制：2mm/s peak particle velocity（West Rail Condition 3.10b）</div></div></div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 案例（考试可举例）</div>
+      <div class="items">
+        <div class="item item-plain"><span class="item-icon">🚇</span><div class="item-text"><strong>Sung Wong Toi Station（宋皇台站）</strong><div class="zh">→ 沙中线施工期间发现宋朝文物（石井/水道）；站顶重新设计以保存文物<br>→ Slides原文：「<em>first ever historical relics exhibition at an operating MTR station</em>」（⚠️ 课程原文未用"全球首个"）</div></div></div>
+        <div class="item item-plain"><span class="item-icon">✈️</span><div class="item-text"><strong>HKBCF港珠澳大桥香港口岸</strong><div class="zh">→ 进行海洋考古调查（地球物理勘测+潜水员检测）；发现区域有6000年人类活动历史</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ LEC 10 ============ -->
+<div id="lec10" class="lec-section">
+  <div class="lec-header" style="background: #37474f;">
+    <div>
+      <div class="subtitle">Week 10 · Jin Ling老师</div>
+      <h2>Lec 10 — 环境监察与审计 EM&amp;A</h2>
+    </div>
+    <div class="lec-num">10</div>
+  </div>
+  <div class="lec-body">
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ EM&amp;A 核心定义（三个常见问题 — PPT原文）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Q1: What is EM&amp;A?</strong>
+            <div class="zh">→ 环境监察（Monitoring）= 验证预测/核实缓解措施有效性<br>→ 环境审计（Audit）= 审查数据、评估合规性、识别需要补救的工作</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Q2: Is EM&amp;A required for ALL projects?</strong>
+            <div class="zh">→ 不是！只有Designated Projects（指定工程）审批后才需要EM&A<br>→ 「Most of them have to be subject to EM&A」</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">⭐</span>
+          <div class="item-text">
+            <strong>Q3: Is EM&amp;A required during ALL phases?</strong>
+            <div class="zh">→ 是！EM&A贯穿Construction Phase和Operational Phase<br>→ 「EM&A is a living process throughout the project」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 3种监察类型（必背）</div>
+      <div class="items">
+        <div class="item item-star">
+          <span class="item-icon">📊</span>
+          <div class="item-text">
+            <strong>① Baseline Monitoring（基准监察）</strong>
+            <div class="zh">→ 工程开始前；确定现有环境条件和自然变化范围<br>→ ⚠️ 「至少4周，在工程开始前6周内进行」为特定类型工程例子（如疏浚/水质监测），并非所有EM&A的通用规定</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">📊</span>
+          <div class="item-text">
+            <strong>② Impact Monitoring（影响监察）</strong>
+            <div class="zh">→ 施工/运营期间；检测可归因于工程的环境变化</div>
+          </div>
+        </div>
+        <div class="item item-star">
+          <span class="item-icon">📊</span>
+          <div class="item-text">
+            <strong>③ Compliance Monitoring（合规监察）</strong>
+            <div class="zh">→ 定期抽样/连续测量；确保符合法规要求和排放标准</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ Action Level vs. Limit Level（重要区别）</div>
+      <div class="two-col">
+        <div class="compare-box" style="border-color:#e65100;">
+          <h4>Action Level（行动水平）</h4>
+          <p>超过此水平 = 环境质量开始恶化的信号<br>→ 需采取补救行动，防止进一步恶化<br>→ 关键词：deteriorating（开始恶化）</p>
+        </div>
+        <div class="compare-box" style="border-color:#c62828;">
+          <h4>Limit Level（限制水平）</h4>
+          <p>超过此水平 → 工程不得在未采取<strong>适当补救措施</strong>前继续进行<br>→ 须进行关键审查；若无改善，<strong>可能需要临时停工</strong>（temporary cessation）<br>→ ⚠️ 非绝对「立即永久停工」；关键词：works shall not proceed without appropriate remedial action</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">⭐ 核心团队架构（必背两个职位）</div>
+      <table class="vtable">
+        <tr><th>职位</th><th>全称</th><th>角色</th><th>资格要求</th></tr>
+        <tr><td><strong>ET Leader</strong></td><td>Environmental Team（环境团队）</td><td>负责实际监察工作；向EPD/PM/IEC/承建商汇报</td><td>至少7年相关经验</td></tr>
+        <tr><td><strong>IEC</strong></td><td>Independent Environmental Checker（独立环境检核人员）</td><td>独立核查ET的工作；每月至少一次现场巡查；不得与ET或承建商有关联</td><td>至少7年相关经验；须独立</td></tr>
+        <tr><td><strong>Contractor</strong></td><td>承建商</td><td>实施缓解措施；配合ET巡查；发现超标须采取纠正行动</td><td>—</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 EM&amp;A Manual 核心内容</div>
+      <div class="items">
+        <div class="item item-plain"><span class="item-icon">📋</span><div class="item-text"><strong>Baseline Monitoring Data</strong><div class="zh">→ 工程前基准数据</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📋</span><div class="item-text"><strong>Impact/Compliance Monitoring Programme</strong><div class="zh">→ 施工/运营期监察计划</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📋</span><div class="item-text"><strong>Action/Limit Levels &amp; Event/Action Plan</strong><div class="zh">→ 超标时的应急处理计划</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📋</span><div class="item-text"><strong>Complaint Investigation Procedures</strong><div class="zh">→ 投诉处理程序</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📋</span><div class="item-text"><strong>Reporting Procedures（汇报频率和格式）</strong><div class="zh">→ 月报（Monthly EM&amp;A Report）：每个<strong>报告月结束后2周内</strong>提交；⚠️ 非「工程结束后」</div></div></div>
+        <div class="item item-plain"><span class="item-icon">📋</span><div class="item-text"><strong>Organization of ET &amp; IEC</strong><div class="zh">→ 团队结构和各方管理汇报关系</div></div></div>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 各部门在EM&amp;A中的角色（考试可能问「who is involved」）</div>
+      <table class="vtable">
+        <tr><th>部门</th><th>负责事项</th></tr>
+        <tr><td><strong>EPD</strong></td><td>执行EIAO；全程监管</td></tr>
+        <tr><td><strong>AFCD</strong></td><td>向DEP提供生态/渔业意见</td></tr>
+        <tr><td><strong>AMO</strong></td><td>向DEP提供文化遗产意见</td></tr>
+        <tr><td><strong>EMSD</strong></td><td>向DEP提供危险评估意见</td></tr>
+        <tr><td><strong>PlanD</strong></td><td>向DEP提供景观视觉评估意见（注：Lec 8转录中Jin老师未直接提及PlanD负责LVIA意见，仅来自一般知识）</td></tr>
+      </table>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 EP特定条件示例（EP设立前必须做的事）</div>
+      <div class="items">
+        <div class="item item-plain"><span class="item-icon">✅</span><div class="item-text"><strong>设立Environmental Committee</strong><div class="zh">→ 每6个月向ACE汇报</div></div></div>
+        <div class="item item-plain"><span class="item-icon">✅</span><div class="item-text"><strong>设立24小时投诉/查询热线</strong></div></div>
+        <div class="item item-plain"><span class="item-icon">✅</span><div class="item-text"><strong>建立专用网站（EM&A数据公开）</strong></div></div>
+        <div class="item item-plain"><span class="item-icon">✅</span><div class="item-text"><strong>在主要施工区域设置网络摄像头</strong></div></div>
+        <div class="item item-plain"><span class="item-icon">✅</span><div class="item-text"><strong>ET和IEC均需在工程开始前任命</strong></div></div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-title">📌 施工期EM&amp;A缓解措施实例（课上图片展示）</div>
+      <div class="two-col">
+        <div class="compare-box">
+          <h4>🌫️ 空气质量控制</h4>
+          <p>• 洒水抑尘（Water spray/bowser）<br>• 车辆洗轮设施<br>• 覆盖/围封粉尘物料<br>• 防尘围板（Hoarding）</p>
+        </div>
+        <div class="compare-box">
+          <h4>🔊 噪音控制</h4>
+          <p>• 噪音屏障（Noise barrier）<br>• 噪音围封（Noise enclosure）<br>• 消音器（Noise muffler）</p>
+        </div>
+        <div class="compare-box">
+          <h4>💧 水质控制</h4>
+          <p>• 泥幕（Silt curtain）<br>• 分段填海（Phased reclamation）<br>• 除淤池（Desilting pond）</p>
+        </div>
+        <div class="compare-box">
+          <h4>♻️ 废物管理</h4>
+          <p>• C&D废物分类<br>• 化学废物专用储存区<br>• 回收桶设置</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-gap"></div>
+<div id="exam-hot" class="exam-box">
+  <h3>🎯 老师原话「will be in the exam for sure / put a star」总清单</h3>
+  <ul>
+    <li>⭐ EIAO enacted 1997, effective/operative 1998（Jin老师Lec 7原话：「EIAO was effective in 1998」）</li>
+    <li>⭐ DP = Designated Project（只有DP需EIA）</li>
+    <li>⭐ EIA 3步：Avoid → Minimize → Mitigate</li>
+    <li>⭐ EIA = Proactive, 在Planning Stage开始</li>
+    <li>⭐ EIA 文件流：PP → Study Brief → EIA Report → EP</li>
+    <li>⭐ Who prepares PP = Project Proponent; Study Brief = EPD</li>
+    <li>⭐ 公众咨询2次：Round1(PP)=14天(公众+ACE相同) / Round2(EIA Report)=30天(公众) / 60天(ACE)</li>
+    <li>⭐ TM = Statutory, guidelines & criteria</li>
+    <li>⭐ ESMG Function = Clarify EIAO Requirements (Point 1)</li>
+    <li>⭐ Schedule 3 = &gt;50 hectares（不是25！原来是20公顷，已改为50公顷）</li>
+    <li>⭐ Direct Application = proved beyond reasonable doubt (S.5.3) — 7.5个月→2.5个月</li>
+    <li>⭐ EIA审批周期 = 24个月以内（旧制3-4年）</li>
+    <li>⭐ 5步评估框架（所有技术章节通用）</li>
+    <li>⭐ Residual Impact = Step 5</li>
+    <li>⭐ 施工+运营两个阶段都要评估</li>
+    <li>⭐ APCO / AQO（空气）= WPCO / WQO（水）类比</li>
+    <li>⭐ AQO每5年更新 / 监测7种污染物 / 空气研究范围500m</li>
+    <li>⭐ 香港42个Gazette Beaches（LCSD管理）/ 10个WCZ</li>
+    <li>⭐ Fuel: Natural Gas &gt; ULSD &gt; Coal</li>
+    <li>⭐ High-rise buildings RESTRICT dilution of air pollutants</li>
+    <li>⭐ WPCO 1980（比EIAO 1997更早）</li>
+    <li>⭐ WQO 9个参数（DO/TIN/Chl-a/E.coli/SS/Turbidity/Salinity/pH/Temp）</li>
+    <li>⭐ Water WQIA 4个参考文件：TM + EIAO + WQO + WPCO</li>
+    <li>⭐ Guest Lecture噪音内容也会考！</li>
+    <li>⭐ Lec 6: CNP系统 / ASR A-B-C / ANL表 / 8步框架</li>
+    <li>⭐ Noise Step 1 = Information Collection（MOST IMPORTANT）</li>
+    <li>⭐ 缓解层次：Source → Path → Receiver</li>
+    <li>⭐ EIA流程图 = 每届期末必考！（Jin老师强调）</li>
+    <li>⭐ Chinese White Dolphins = 最高频生态考点（Jin老师2次强调）</li>
+    <li>⭐ Corals = 第二重要生态考点</li>
+    <li>⭐ 4个国际框架：Ramsar（湿地）/ IUCN Red List / CITES / IFC Performance Standards（融资项目）</li>
+    <li>⭐ EIAO 1998年生效：1998年前=行政性；1998年后=法定强制（mandatory/statutory）</li>
+    <li>⭐ EcoIA = planning tool（非学术研究）— 时间有限，专注关键物种和栖息地</li>
+    <li>⭐ 香港沿岸贡献中国25%沿岸生物多样性</li>
+    <li>⭐ EcoIA缓解：Avoid → Minimize → Compensate（非Mitigate）</li>
+    <li>⭐ Avoid例子：Long Valley（塱原）→ 铁路支线改变选线绕开（老师课堂举例）</li>
+    <li>⭐ Compensate例子：香港湿地公园（天水围）→ 占用湿地后在别处重建</li>
+    <li>⭐ Silt Curtain作用：阻止SS扩散；机制 = 颗粒堵塞鱼鳃（block gills of fish）</li>
+    <li>⭐ LVIA研究范围 = 500m from work's limit of Designated Project</li>
+    <li>⭐ LVIA Q4（易漏！）= 项目描述：what/when/how of the project</li>
+    <li>⭐ LVIA Q9 结论 = 4类（TM Annex 10）：Beneficial / Acceptable / Acceptable with Mitigation / Undetermined</li>
+    <li>⭐ Maipo Inner Deep Bay = 中国第7个Ramsar Site（1995年指定）</li>
+    <li>⭐ CWD + Finless Porpoise = 香港仅有的两种常见海洋哺乳类（Slides原话：「only species of marine mammal regularly sighted」）</li>
+    <li>⭐ EcoIA基线调查：6个月（低多样性）/ 9个月（中等）/ 12个月（含TM Annex 8重要栖息地）</li>
+    <li>⭐ LVIA影响评估 = 定性矩阵（qualitative matrix）而非数学公式</li>
+    <li>⭐ 历史建筑3级：Grade I（杰出）/ II（特别）/ III（一般）</li>
+    <li>⭐ 历史建筑评级6准则（Historical/Architectural/Group/Social/Authenticity/Rarity）</li>
+    <li>⭐ EM&A 3类监察：Baseline / Impact / Compliance</li>
+    <li>⭐ Action Level（恶化信号）vs. Limit Level（须采取补救措施方可继续；未改善则可能临时停工）</li>
+    <li>⭐ ET vs IEC（均需7年经验；IEC须独立）</li>
+    <li>⭐ EM&A适用于DP，贯穿施工+运营两个阶段</li>
+  </ul>
+</div>
+
+<div style="text-align:center;color:#aaa;font-size:12px;padding:16px;">
+  CSE508 2026 | 整理自老师原版Transcript | 祝考试顺利 🎓
+</div>
+
+</body>
+</html>
