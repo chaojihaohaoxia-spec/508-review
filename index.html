@@ -172,7 +172,14 @@
   .mcq-hook::before{content:"\26A1 10秒记忆：";font-weight:800;}
   .mcq-detail{font-size:12px;color:#555;line-height:1.65;}
   .mcq-detail b{display:block;color:#333;margin-top:5px;}
-  .mcq-flash-section{margin-top:24px;}
+  /* MCQ Tabs */
+  .mcq-tab-bar{display:flex;gap:0;background:#fff;border-radius:10px 10px 0 0;border:1px solid #e0e0e0;overflow:hidden;margin-bottom:0;}
+  .mcq-tab{flex:1;padding:11px 0;font-size:13px;font-weight:700;cursor:pointer;border:none;background:transparent;color:#888;border-bottom:3px solid transparent;transition:all .18s;}
+  .mcq-tab.active{color:#1a73e8;border-bottom-color:#1a73e8;background:#f0f5ff;}
+  .mcq-tab:hover:not(.active){background:#fafafa;color:#555;}
+  .mcq-tab-content{display:none;}
+  .mcq-tab-content.active{display:block;}
+  .mcq-flash-section{padding-top:4px;}
   .mcq-flash-title{font-size:15px;font-weight:700;color:#333;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
   .flash-lec-group{margin-bottom:16px;}
   .flash-lec-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:8px;}
@@ -1697,6 +1704,8 @@
   CSE508 2026 | 整理自老师原版Transcript | 祝考试顺利 🎓
 </div>
 
+</div><!-- /lec10 -->
+
 </div><!-- /notes-mode -->
 
 <!-- ===================== MCQ MODE ===================== -->
@@ -1717,22 +1726,28 @@
     <button class="mcq-sb-btn" id="sb-3" onclick="filterLec(3,this)">Lec 3 — EP/EM&A <span class="mcq-sb-count">5</span></button>
     <hr class="mcq-sb-divider">
     <div class="mcq-sb-title">快捷操作</div>
-    <button class="mcq-sb-btn" onclick="toggleOverview()">📋 答案速查表</button>
-    <button class="mcq-sb-btn" onclick="document.getElementById('mcq-flashcards').scrollIntoView({behavior:'smooth'})">🃏 高频记忆卡</button>
+    <button class="mcq-sb-btn" id="sb-tab-practice" onclick="switchTab('practice')" style="border-left-color:#1a73e8;color:#1a73e8;background:#e8f0fe;">🎯 做题模式</button>
+    <button class="mcq-sb-btn" id="sb-tab-overview" onclick="switchTab('overview')">📋 答案速查表</button>
+    <button class="mcq-sb-btn" id="sb-tab-flash" onclick="switchTab('flash')">🃏 高频记忆卡</button>
     <button class="mcq-sb-btn" onclick="resetAll()">🔄 重置全部</button>
   </div>
   <div class="mcq-main">
-    <div class="mcq-ov-box" id="mcq-ov-box">
-      <button class="mcq-ov-toggle" onclick="toggleOverview()">
-        <span>📋 答案速查总览 — 全部 20 题正确答案</span>
-        <span style="margin-left:auto;font-size:12px;color:#888;" id="ov-arrow">▼ 展开</span>
-      </button>
-      <div class="mcq-ov-inner" id="mcq-ov-inner"></div>
+    <div class="mcq-tab-bar">
+      <button class="mcq-tab active" id="tab-practice" onclick="switchTab('practice')">🎯 做题</button>
+      <button class="mcq-tab" id="tab-overview" onclick="switchTab('overview')">📋 答案速查</button>
+      <button class="mcq-tab" id="tab-flash" onclick="switchTab('flash')">🃏 记忆卡</button>
     </div>
-    <div id="mcq-cards-root"></div>
-    <div class="mcq-flash-section" id="mcq-flashcards">
-      <div class="mcq-flash-title">🃏 高频记忆卡 — 考前快速扫 (25张)</div>
-      <div id="flash-root"></div>
+    <div class="mcq-tab-content active" id="tc-practice">
+      <div id="mcq-cards-root"></div>
+    </div>
+    <div class="mcq-tab-content" id="tc-overview" style="background:#fff;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 10px 10px;">
+      <div style="padding:16px;" id="mcq-ov-inner"></div>
+    </div>
+    <div class="mcq-tab-content" id="tc-flash" style="padding-top:8px;">
+      <div class="mcq-flash-section">
+        <div class="mcq-flash-title">🃏 高频记忆卡 — 考前快速扫 (25张)</div>
+        <div id="flash-root"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -1945,12 +1960,12 @@ function switchMode(m){
   const nn=document.getElementById("nav-notes");
   const nm=document.getElementById("nav-mcq");
   if(m==="mcq"){
-    n.style.display="none";q.style.display="";
+    n.style.display="none";q.style.display="block";
     nn.style.display="none";nm.style.display="flex";
     document.getElementById("btn-notes").classList.remove("active");
     document.getElementById("btn-mcq").classList.add("active");
   } else {
-    n.style.display="";q.style.display="none";
+    n.style.display="block";q.style.display="none";
     nm.style.display="none";nn.style.display="flex";
     document.getElementById("btn-mcq").classList.remove("active");
     document.getElementById("btn-notes").classList.add("active");
@@ -1958,12 +1973,17 @@ function switchMode(m){
   window.scrollTo(0,0);
 }
 
-function toggleOverview(){
-  const inner=document.getElementById("mcq-ov-inner");
-  const arrow=document.getElementById("ov-arrow");
-  ovOpen=!ovOpen;
-  inner.style.display=ovOpen?"block":"none";
-  arrow.textContent=ovOpen?"▲ 折叠":"▼ 展开";
+function switchTab(t){
+  ['practice','overview','flash'].forEach(id=>{
+    document.getElementById('tc-'+id).classList.toggle('active', id===t);
+    document.getElementById('tab-'+id).classList.toggle('active', id===t);
+    const sb=document.getElementById('sb-tab-'+id);
+    if(sb){sb.style.background=id===t?'#e8f0fe':'';sb.style.color=id===t?'#1a73e8':'';sb.style.borderLeftColor=id===t?'#1a73e8':'transparent';}
+  });
+  // Show/hide lec filters only in practice tab
+  const filterArea=document.getElementById('mcq-filter-area');
+  if(filterArea) filterArea.style.display=t==='practice'?'block':'none';
+  window.scrollTo(0,0);
 }
 
 renderOverview();renderCards();renderFlash();
