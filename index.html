@@ -102,23 +102,125 @@
   .exam-box li { background: #fff; border: 1px solid #ffcdd2; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; color: #333; }
   
   .section-gap { height: 8px; }
+
+  /* ===== MODE SWITCHER ===== */
+  .mode-switcher{display:flex;gap:6px;margin-right:14px;align-items:center;border-right:1px solid rgba(255,255,255,0.2);padding-right:14px;flex-shrink:0;}
+  .mode-btn{padding:5px 15px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid rgba(255,255,255,0.35);background:transparent;color:rgba(255,255,255,0.65);transition:all .2s;}
+  .mode-btn.active{background:#fff;color:#1e1e2e;border-color:#fff;}
+  .mode-btn:hover:not(.active){color:#fff;border-color:#fff;}
+  .nav-links-notes{display:flex;gap:6px;flex-wrap:wrap;}
+  .nav-links-mcq{display:none;gap:6px;flex-wrap:wrap;}
+  .mcq-nav-filter{padding:5px 13px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;background:rgba(255,255,255,0.12);color:#fff;border:2px solid transparent;transition:all .2s;}
+  .mcq-nav-filter.active,.mcq-nav-filter:hover{background:#fff;color:#1e1e2e;}
+  /* ===== MCQ LAYOUT ===== */
+  #mcq-mode{display:none;}
+  .mcq-layout{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 48px);}
+  .mcq-sidebar{background:#fff;border-right:1px solid #e8e8e8;padding:14px 0;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;}
+  .mcq-sb-title{font-size:10.5px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.9px;padding:0 14px 8px;}
+  .mcq-sb-btn{display:flex;align-items:center;width:100%;text-align:left;padding:9px 14px;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#555;border-left:3px solid transparent;transition:all .15s;}
+  .mcq-sb-btn:hover{background:#f5f7fa;color:#333;}
+  .mcq-sb-btn.active{background:#e8f0fe;color:#1a73e8;border-left-color:#1a73e8;}
+  .mcq-sb-count{margin-left:auto;font-size:11px;font-weight:700;background:#f0f0f0;color:#777;border-radius:9px;padding:1px 7px;}
+  .mcq-sb-divider{margin:10px 14px;border:none;border-top:1px solid #f0f0f0;}
+  .mcq-stat-panel{margin:10px 14px;background:#f8f9fa;border-radius:10px;padding:10px 12px;}
+  .mcq-stat-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#666;padding:3px 0;}
+  .mcq-stat-row strong{font-size:15px;font-weight:800;}
+  .stat-c{color:#2e7d32;} .stat-w{color:#c62828;} .stat-n{color:#1565C0;}
+  .mcq-main{background:#f0f2f5;padding:16px;}
+  .mcq-ov-box{background:#fff;border-radius:10px;border:1px solid #e0e0e0;margin-bottom:18px;overflow:hidden;}
+  .mcq-ov-toggle{width:100%;text-align:left;padding:13px 18px;background:#fff;border:none;cursor:pointer;font-size:14px;font-weight:700;color:#333;display:flex;align-items:center;gap:8px;}
+  .mcq-ov-toggle:hover{background:#fafafa;}
+  .mcq-ov-inner{padding:14px 16px;border-top:1px solid #f0f0f0;display:none;}
+  .mcq-ov-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .mcq-ov-table th{background:#f5f5f5;padding:7px 10px;text-align:left;font-weight:700;color:#666;border-bottom:1px solid #e0e0e0;}
+  .mcq-ov-table td{padding:6px 10px;border-bottom:1px solid #f5f5f5;vertical-align:top;line-height:1.5;}
+  .mcq-ov-table tr:last-child td{border-bottom:none;}
+  .ans-pill{display:inline-block;padding:1px 9px;border-radius:9px;font-size:11px;font-weight:700;background:#e8f5e9;color:#1b5e20;}
+  .mcq-lec-group{margin-bottom:24px;}
+  .mcq-lec-heading{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;border-radius:10px;}
+  .mcq-lec-heading h3{font-size:15px;font-weight:700;color:#fff;margin:0;}
+  .mcq-lec-heading .qcount{margin-left:auto;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);}
+  .mcq-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:12px;}
+  .mcq-card{background:#fff;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.07);overflow:hidden;transition:box-shadow .2s;}
+  .mcq-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.12);}
+  .mcq-card.hidden{display:none;}
+  .mcq-card[data-lec="1"]{border-top:3px solid var(--lec1);}
+  .mcq-card[data-lec="2"]{border-top:3px solid var(--lec2);}
+  .mcq-card[data-lec="3"]{border-top:3px solid var(--lec3);}
+  .mcq-card-head{display:flex;align-items:center;gap:8px;padding:11px 14px 6px;}
+  .mcq-lec-tag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:9px;color:#fff;flex-shrink:0;}
+  .lec-tag-1{background:var(--lec1);} .lec-tag-2{background:var(--lec2);} .lec-tag-3{background:var(--lec3);}
+  .mcq-q-num{font-size:13px;font-weight:700;color:#666;flex-shrink:0;}
+  .mcq-topic{font-size:11px;color:#999;margin-left:auto;text-align:right;max-width:160px;line-height:1.3;}
+  .mcq-q-text{font-size:13px;line-height:1.6;color:#222;padding:4px 14px 10px;font-weight:500;}
+  .mcq-opts{padding:0 10px 8px;display:flex;flex-direction:column;gap:5px;}
+  .mcq-opt{padding:8px 12px;border-radius:8px;border:2px solid #e8e8e8;font-size:13px;cursor:pointer;transition:all .15s;color:#333;background:#fafafa;line-height:1.4;}
+  .mcq-opt:hover:not(.disabled){border-color:#bbb;background:#f0f0f0;}
+  .mcq-opt.selected{border-color:#1565C0;background:#e3f2fd;color:#0d47a1;font-weight:600;}
+  .mcq-opt.correct{border-color:#2e7d32!important;background:#e8f5e9!important;color:#1b5e20!important;font-weight:700;}
+  .mcq-opt.wrong{border-color:#c62828!important;background:#ffebee!important;color:#c62828!important;}
+  .mcq-opt.disabled{cursor:default;}
+  .mcq-card-ft{padding:8px 14px 10px;display:flex;gap:8px;align-items:center;}
+  .mcq-check-btn{background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;}
+  .mcq-check-btn:hover{background:#1557b0;}
+  .mcq-reset-btn{background:none;color:#999;border:1px solid #ddd;border-radius:8px;padding:7px 12px;font-size:12px;cursor:pointer;}
+  .mcq-reset-btn:hover{background:#f5f5f5;}
+  .mcq-verdict{font-size:13px;font-weight:700;}
+  .mcq-verdict.right{color:#2e7d32;} .mcq-verdict.wrong2{color:#c62828;}
+  .mcq-reveal{border-top:1px solid #f0f0f0;padding:12px 14px;display:none;}
+  .mcq-hook{background:linear-gradient(135deg,#fffde7,#fff8e1);border-left:3px solid #f9a825;border-radius:0 8px 8px 0;padding:9px 12px;font-size:12px;font-weight:600;color:#5d4037;margin-bottom:8px;}
+  .mcq-hook::before{content:"\26A1 10秒记忆：";font-weight:800;}
+  .mcq-detail{font-size:12px;color:#555;line-height:1.65;}
+  .mcq-detail b{display:block;color:#333;margin-top:5px;}
+  .mcq-flash-section{margin-top:24px;}
+  .mcq-flash-title{font-size:15px;font-weight:700;color:#333;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .flash-lec-group{margin-bottom:16px;}
+  .flash-lec-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:8px;}
+  .flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;}
+  .flashcard{background:#fff;border-radius:10px;padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.07);border-left:4px solid #ddd;}
+  .flashcard[data-lec="1"]{border-left-color:var(--lec1);}
+  .flashcard[data-lec="2"]{border-left-color:var(--lec2);}
+  .flashcard[data-lec="3"]{border-left-color:var(--lec3);}
+  .flash-term{font-size:12px;font-weight:700;color:#333;margin-bottom:5px;}
+  .flash-def{font-size:11.5px;color:#666;line-height:1.55;}
+  @media(max-width:860px){
+    .mcq-layout{grid-template-columns:1fr;}
+    .mcq-sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid #e8e8e8;display:flex;flex-wrap:wrap;gap:4px;padding:10px;}
+    .mcq-sb-btn{width:auto;border-left:none;border-radius:20px;border:2px solid transparent;padding:6px 12px;}
+    .mcq-sb-btn.active{border-color:#1a73e8;background:#e8f0fe;}
+    .mcq-stat-panel{display:none;}
+    .mcq-cards-grid{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body>
 
 <div class="nav">
-  <span class="nav-title">CSE508 跳转 →</span>
-  <a href="#lec1" class="nav-l1">Lec1 EIA基础</a>
-  <a href="#lec2" class="nav-l2">Lec2 EIA流程</a>
-  <a href="#lec3" class="nav-l3">Lec3 评估框架</a>
-  <a href="#lec4" class="nav-l4">Lec4 空气质量</a>
-  <a href="#lec5" class="nav-l5">Lec5 水质</a>
-  <a href="#lec6" class="nav-l6">Lec6 噪音</a>
-  <a href="#lec7" style="background:#2e7d32;">Lec7 生态</a>
-  <a href="#lec8" style="background:#558b2f;">Lec8 景观</a>
-  <a href="#lec9" style="background:#6d4c41;">Lec9 文化遗产</a>
-  <a href="#lec10" style="background:#37474f;">Lec10 EM&A</a>
-  <a href="#exam-hot" style="background:#e65100;">🎯考试重点</a>
+  <div class="mode-switcher">
+    <button class="mode-btn active" id="btn-notes" onclick="switchMode('notes')">📚 讲义重点</button>
+    <button class="mode-btn" id="btn-mcq" onclick="switchMode('mcq')">🎯 MCQ 练习</button>
+  </div>
+  <div class="nav-links-notes" id="nav-notes">
+    <span class="nav-title" style="display:flex;align-items:center;color:#aaa;font-size:12px;">跳转 →</span>
+    <a href="#lec1" class="nav-l1">Lec1 EIA基础</a>
+    <a href="#lec2" class="nav-l2">Lec2 EIA流程</a>
+    <a href="#lec3" class="nav-l3">Lec3 评估框架</a>
+    <a href="#lec4" class="nav-l4">Lec4 空气质量</a>
+    <a href="#lec5" class="nav-l5">Lec5 水质</a>
+    <a href="#lec6" class="nav-l6">Lec6 噪音</a>
+    <a href="#lec7" style="background:#2e7d32;">Lec7 生态</a>
+    <a href="#lec8" style="background:#558b2f;">Lec8 景观</a>
+    <a href="#lec9" style="background:#6d4c41;">Lec9 文化遗产</a>
+    <a href="#lec10" style="background:#37474f;">Lec10 EM&A</a>
+    <a href="#exam-hot" style="background:#e65100;">🎯考试重点</a>
+  </div>
+  <div class="nav-links-mcq" id="nav-mcq">
+    <button class="mcq-nav-filter active" id="nf-all" onclick="filterLec('all',this)">全部 (20)</button>
+    <button class="mcq-nav-filter" id="nf-1" onclick="filterLec(1,this)">Lec 1 (10)</button>
+    <button class="mcq-nav-filter" id="nf-2" onclick="filterLec(2,this)">Lec 2 (5)</button>
+    <button class="mcq-nav-filter" id="nf-3" onclick="filterLec(3,this)">Lec 3 (5)</button>
+    <button class="mcq-nav-filter" onclick="document.getElementById('mcq-flashcards').scrollIntoView({behavior:'smooth'})" style="background:rgba(249,168,37,0.25);">🃏 记忆卡</button>
+  </div>
 </div>
 
 <div class="page-header">
@@ -132,6 +234,7 @@
   </div>
 </div>
 
+<div id="notes-mode">
 <!-- ============ LEC 1 ============ -->
 <div id="lec1" class="lec-section">
   <div class="lec-header" style="background: var(--lec1);">
@@ -1593,6 +1696,278 @@
 <div style="text-align:center;color:#aaa;font-size:12px;padding:16px;">
   CSE508 2026 | 整理自老师原版Transcript | 祝考试顺利 🎓
 </div>
+
+</div><!-- /notes-mode -->
+
+<!-- ===================== MCQ MODE ===================== -->
+<div id="mcq-mode">
+<div class="mcq-layout">
+  <div class="mcq-sidebar">
+    <div class="mcq-stat-panel">
+      <div class="mcq-sb-title" style="padding:0 0 6px;">📊 答题进度</div>
+      <div class="mcq-stat-row"><span>✅ 正确</span><strong class="stat-c" id="stat-c">0</strong></div>
+      <div class="mcq-stat-row"><span>❌ 错误</span><strong class="stat-w" id="stat-w">0</strong></div>
+      <div class="mcq-stat-row"><span>⏳ 未答</span><strong class="stat-n" id="stat-n">20</strong></div>
+    </div>
+    <hr class="mcq-sb-divider">
+    <div class="mcq-sb-title">按 Lecture 筛选</div>
+    <button class="mcq-sb-btn active" id="sb-all" onclick="filterLec('all',this)">全部题目 <span class="mcq-sb-count">20</span></button>
+    <button class="mcq-sb-btn" id="sb-1" onclick="filterLec(1,this)">Lec 1 — EIA基础 <span class="mcq-sb-count">10</span></button>
+    <button class="mcq-sb-btn" id="sb-2" onclick="filterLec(2,this)">Lec 2 — EIA流程 <span class="mcq-sb-count">5</span></button>
+    <button class="mcq-sb-btn" id="sb-3" onclick="filterLec(3,this)">Lec 3 — EP/EM&A <span class="mcq-sb-count">5</span></button>
+    <hr class="mcq-sb-divider">
+    <div class="mcq-sb-title">快捷操作</div>
+    <button class="mcq-sb-btn" onclick="toggleOverview()">📋 答案速查表</button>
+    <button class="mcq-sb-btn" onclick="document.getElementById('mcq-flashcards').scrollIntoView({behavior:'smooth'})">🃏 高频记忆卡</button>
+    <button class="mcq-sb-btn" onclick="resetAll()">🔄 重置全部</button>
+  </div>
+  <div class="mcq-main">
+    <div class="mcq-ov-box" id="mcq-ov-box">
+      <button class="mcq-ov-toggle" onclick="toggleOverview()">
+        <span>📋 答案速查总览 — 全部 20 题正确答案</span>
+        <span style="margin-left:auto;font-size:12px;color:#888;" id="ov-arrow">▼ 展开</span>
+      </button>
+      <div class="mcq-ov-inner" id="mcq-ov-inner"></div>
+    </div>
+    <div id="mcq-cards-root"></div>
+    <div class="mcq-flash-section" id="mcq-flashcards">
+      <div class="mcq-flash-title">🃏 高频记忆卡 — 考前快速扫 (25张)</div>
+      <div id="flash-root"></div>
+    </div>
+  </div>
+</div>
+</div><!-- /mcq-mode -->
+
+<script>
+const MCQ=[
+{lec:1,q:1,topic:"Historical milestone",qtext:"What historical event marks the initial international recognition of the right to a healthy environment, a key concept influencing EIA practices globally?",opts:{A:"The publication of \'Silent Spring\' by Rachel Carson.",B:"The Stockholm Declaration of 1972.",C:"The Brundtland Commission\'s report \"Our Common Future\".",D:"The Rio Conference on Environment and Development in 1992."},ans:"B",hook:"一看到 right to a healthy environment，优先选 Stockholm Declaration 1972。",key:"Stockholm Declaration (1972) 是国际层面首次明确承认人类享有良好/健康环境的权利，是 EIA 全球发展的早期价值基础。",wrong:"A: Silent Spring (1962) 推动公众环境意识，但不是国际宣言中的承认。C: Our Common Future (1987) 核心是 sustainable development，时间更晚。D: Rio 1992 强调环境与发展结合，但不是最初承认。"},
+{lec:1,q:2,topic:"HK EIA historical development",qtext:"Which of the following best reflects the evolution of environmental policies in Hong Kong as stated in historical events concerning EIA?",opts:{A:"EIA was introduced immediately after the First World War.",B:"EIA followed the successful implementation of sanitary measures during British colonial rule.",C:"EIA was established before any Clean Air regulations in Hong Kong.",D:"EIA practices formalized with the enactment of the EIA Ordinance in 1997 after a period of increasing environmental awareness."},ans:"D",hook:"香港 EIA 法定化：EIAO enacted 1997, commenced 1998。",key:"Hong Kong 的 EIA 是在环境管理制度逐步成熟后正式法定化：EIAO 于 1997 制定，1998 生效。",wrong:"A: 一战后立即引入 EIA 过早。B: sanitary measures 是早期背景之一，但描述太片面。C: Clean Air 相关规管早于 EIAO。"},
+{lec:1,q:3,topic:"Technical Memorandum (TM)",qtext:"What is a central role of the Technical Memorandum (TM) to the EIA Ordinance in Hong Kong\'s EIA process?",opts:{A:"Establishing non-binding guidelines for project managers.",B:"Providing statutory and detailed provisions for the EIA process.",C:"Replacing the need for a public consultation phase.",D:"Facilitating financial audits after project completion."},ans:"B",hook:"TM = statutory technical rulebook for EIAO。",key:"TM 是 EIAO 下的法定技术文件，提供 EIA 程序、评估原则、准则和要求，不是普通建议书。",wrong:"A: TM 不是 non-binding。C: Public consultation 是 EIA 流程重要环节，TM 不会替代。D: EIA audit 指 EM&A，不是 financial audit。"},
+{lec:1,q:4,topic:"Public consultation",qtext:"Why is it important to consider public consultation as highlighted in the EIA process?",opts:{A:"It delays the overall project planning process unnecessarily.",B:"It solely focuses on gathering legal opinions.",C:"It contributes to transparency and incorporates various environmental views.",D:"It eliminates the need for expert technical assessments."},ans:"C",hook:"Public consultation = transparency + environmental views + accountability。",key:"Public consultation 的作用是提升 transparency，吸收公众、利益相关者和 ACE 等对环境影响的意见。",wrong:"A: 咨询是制度设计的一部分，不是 unnecessarily。B: 不只收集 legal opinions。D: 公众意见不能取代专家技术评估。"},
+{lec:1,q:5,topic:"Proactive planning nature of EIA",qtext:"Which of the following descriptions best explains the proactive planning nature of EIA as emphasized in its key summary?",opts:{A:"It solely focuses on environmental monitoring after project approval.",B:"It assists in better decision-making through early dialogue and incorporation into the project cycle.",C:"It is merely a report generated after project implementation.",D:"It operates independently of the project life cycle."},ans:"B",hook:"EIA = early, proactive, built into decision-making。",key:"EIA 是 proactive planning and decision-making tool，应尽早进入 project cycle，而不是项目完成后的补救报告。",wrong:"A: EM&A 是后续监测，但 EIA 不只是在批准后监测。C: EIA 应在项目实施前介入。D: EIA 必须嵌入 project life cycle。"},
+{lec:1,q:6,topic:"Project alternatives & mitigation",qtext:"What does the EIA process emphasize with respect to project alternatives when potential environmental impacts are anticipated?",opts:{A:"Avoiding any evaluation of potential impacts.",B:"Choosing the only available option regardless of cost.",C:"Considering options and alternatives to minimize adverse environmental consequences.",D:"Resorting solely to monetary compensation measures."},ans:"C",hook:"看到 alternatives：选 minimize adverse environmental consequences。",key:"EIA 强调比较 options and alternatives，通过选址、走线、设计和施工方法调整来避免或减少不良环境影响。",wrong:"A: 不评估影响与 EIA 核心目的相反。B: EIA 要比较 alternatives。D: Monetary compensation 是最后手段。"},
+{lec:1,q:7,topic:"Avoid late focus",qtext:"Which principle of EIA aims to reduce the need for expensive remedial measures at later stages of a project?",opts:{A:"Flexibility amidst robustness.",B:"Transparency, with public participation.",C:"Avoidance of any late focus.",D:"Proactive planning and decision tool."},ans:"C",hook:"看到 later stages / expensive remedial：选 avoid late focus。",key:"Avoidance of late focus 指尽早识别和处理环境问题，避免到项目后期才发现问题而产生昂贵补救措施。",wrong:"A: Flexibility/robustness 没有直接对应 late remedial。B: Public participation 关注透明度，不是后期补救成本。D: Proactive planning 很接近，但本题最佳答案是 avoid late focus。"},
+{lec:1,q:8,topic:"Impact Assessment stage (LEAST likely)",qtext:"When assessing a project\'s potential environmental impact, which of the following is least likely to be a focus during the Impact Assessment stage?",opts:{A:"Analysis using professional judgment and modeling.",B:"Identifying the project alternatives.",C:"Data collection through field surveys.",D:"Evaluating impact likelihood and duration."},ans:"B",hook:"least likely 题要反向读；Impact Assessment 不等于从零开始找 alternatives。",key:"Impact Assessment 阶段重点是 baseline data、field survey、professional judgment/modeling、预测 impact likelihood/duration；alternatives 应更早在 planning/scoping 阶段处理。",wrong:"A: 建模和专业判断是影响预测的重要方法。C: Field survey 用于补充 baseline，是常见工作。D: Likelihood 和 duration 是 impact prediction 的常考因素。"},
+{lec:1,q:9,topic:"EIAO objective",qtext:"What is the primary objective of the Environmental Impact Assessment Ordinance (EIAO) enacted in 1998?",opts:{A:"To facilitate industrial expansion without restrictions.",B:"To assess the environmental impact of certain projects and proposals for protecting the environment and handling incidental matters.",C:"To provide financial aid to environmental projects.",D:"To promote urban development irrespective of environmental concerns."},ans:"B",hook:"EIAO objective = assess impacts of certain projects/proposals + protect environment。",key:"EIAO 核心目的：评估 certain projects and proposals 对环境的影响，以保护环境并处理相关附带事项。注意是 Designated Projects，不是所有项目。",wrong:"A: EIAO 是环境保护制度，不是无限制促进工业扩张。C: EIAO 不提供 financial aid。D: EIAO 的存在正是为了避免不顾环境的城市发展。"},
+{lec:1,q:10,topic:"Designated Project (DP) factors",qtext:"When defining a designated project under the EIAO, which of the following factors is considered?",opts:{A:"Project type.",B:"Project location (distance from sensitive receivers).",C:"Project size and capacity.",D:"All of the above."},ans:"D",hook:"DP 判断三件套：type + location/SR + size/capacity。",key:"判断 Designated Project (DP) 时会看 project type、location/distance from sensitive receivers、size and capacity 等因素。",wrong:"A/B/C 都是定义 DP 时可能考虑的维度，所以最佳答案是 All of the above。每个单独选项都只是部分因素。"},
+{lec:2,q:1,topic:"Schedule 3",qtext:"Which of the following is the best description of Schedule 3?",opts:{A:"For non-designated projects.",B:"Does not require an EIA.",C:"An urban development or redevelopment project covering an area of more than 25 ha.",D:"An urban development or redevelopment project covering an area of more than 50 ha."},ans:"D",hook:"Schedule 3 = major DP + urban dev/redevelopment > 50 ha + EIA report。",key:"Schedule 3 指 Major Designated Projects Requiring EIA reports；2023年修订把 urban development/redevelopment 面积门槛由 20 ha 提高到 50 ha。",wrong:"A: Schedule 3 仍然是 designated projects，不是 non-designated。B: Schedule 3 需要 EIA reports；不是免 EIA。C: 25 ha 不是正确门槛，老师讲的是 more than 50 ha。"},
+{lec:2,q:2,topic:"Study Brief contents (NOT)",qtext:"Which of the following is NOT details described in an EIA Study Brief?",opts:{A:"Purposes and objectives of the EIA study.",B:"Assessment methodology.",C:"Offenses and penalties.",D:"Project programme."},ans:"C",hook:"Study Brief 考 NOT：看到 offenses and penalties 就排除。",key:"Study Brief 列明 study purpose/objectives、scope/requirements、assessment methodologies、procedural/reporting requirements 等。Offenses and penalties 属于 EIAO 违规执法，不是 EPD 发出的 Study Brief 内容。",wrong:"A: Purposes and objectives 是 Study Brief 明确列出的内容。B: Assessment methodologies 是 Study Brief 明确列出的内容。D: 相较之下，C 明显不是 Study Brief details。"},
+{lec:2,q:3,topic:"Scoping Checklist",qtext:"What is the significance of a scoping checklist in the EIA process?",opts:{A:"It helps in budgeting for the project.",B:"It identifies possible environmental issues for further assessments.",C:"It outlines the project\'s marketing plan.",D:"It determines the project\'s timeline."},ans:"B",hook:"Scoping Checklist = identify possible environmental issues for further assessment。",key:"Scoping Checklist 帮助识别 construction/operation/decommissioning 阶段可能的环境影响，决定哪些 environmental issues 需要在 EIA report 中 covered, assessed and addressed。",wrong:"A: Budgeting 是项目财务管理，不是 scoping checklist 的核心用途。C: Marketing plan 与 EIA 无关。D: Project timeline 不是 scoping checklist 的主要功能。"},
+{lec:2,q:4,topic:"Hong Kong Environmental Database (HKED)",qtext:"What is the primary purpose of the Hong Kong Environmental Database (HKED)?",opts:{A:"To collect environment and ecology-related data.",B:"To promote tourism in Hong Kong.",C:"To provide financial support for environmental projects.",D:"To regulate construction activities."},ans:"A",hook:"HKED = environmental/ecology data + one-stop platform + faster EIA。",key:"HKED 是 one-stop comprehensive environmental database，整合 air/noise/water/ecology/EIA-related data，配合 smart analytical tools / 3D modelling tools，提升 EIA 的 speed, efficiency。",wrong:"B: HKED 不是旅游推广平台。C: HKED 提供数据工具，不提供项目资金。D: 规管施工活动主要靠 EP conditions、EM&A；HKED 不是 construction regulator。"},
+{lec:2,q:5,topic:"2021/2022 EIAO enhancement",qtext:"What is the main goal of the multi-pronged approach mentioned in the 2021 and 2022 Policy Addresses regarding the EIA process?",opts:{A:"To reduce public participation.",B:"To increase project costs.",C:"To enhance and simplify the EIA process.",D:"To eliminate the need for EIAs."},ans:"C",hook:"2021/2022 reform = enhance + simplify + improve speed/efficiency, not weaken EIA。",key:"2021/2022 Policy Addresses 提出 multi-pronged approach：enhance and simplify the EIA process，核心是 improve speed and efficiency，同时保持环境把关。",wrong:"A: EPD 明确会 maintain existing public inspection period，不是减少公众参与。B: 改革目标是减少重复工作、提升效率，不是增加成本。D: DIR 只适用于低/无不良影响的 DP；不是取消 EIA 制度。"},
+{lec:3,q:1,topic:"Assumptions in EIA",qtext:"What is the significance of understanding assumptions made in an EIA?",opts:{A:"They influence the project\'s timeline.",B:"They affect impact prediction accuracy.",C:"They determine the project\'s budget.",D:"They are irrelevant to the EIA process."},ans:"B",hook:"看到 assumptions in EIA/model：想 prediction accuracy + worst-case scenario + transparency。",key:"Assumptions 是模型和定量评估的前提，如 traffic forecast、assessment year、construction method、scenario setting；它们直接影响 predicted impact 是否可信，也容易在 JR 中被挑战。",wrong:"A: Assumptions 可能与 programme 有关，但本题核心不是 timeline。C: 预算可能间接受影响，但不是 assumptions 在 EIA 中的主要作用。D: 完全错误；assumptions 是 quantitative impact assessment 的关键基础。"},
+{lec:3,q:2,topic:"Variation of Environmental Permit (VEP)",qtext:"What is the prescribed action if a permit holder wishes to change the conditions of their Environmental Permit?",opts:{A:"Apply for a variation of the Environmental Permit.",B:"Submit a new EIA report.",C:"Surrender the existing permit.",D:"Notify the public."},ans:"A",hook:"Change EP condition = VEP；Change permit holder = FEP。",key:"VEP (Variation of Environmental Permit) 用于 permit holder 想改变 EP conditions 的情况；关键词是 change the conditions of EP。老师直接说：change the condition of the EP → go for a variation。",wrong:"B: New EIA report 通常涉及 material change；不是所有 EP condition 改动都重做 EIA。C: Surrender 是放弃 whole or part of EP，不是修改条件。D: Public notification 可能出现在程序中，但不是 permit holder 的 prescribed action。"},
+{lec:3,q:3,topic:"Non-compliance with EP",qtext:"Which of the following is a potential consequence of failing to comply with the conditions of an Environmental Permit?",opts:{A:"Public recognition.",B:"Revocation of the Environmental Permit.",C:"Increased project funding.",D:"Expansion of project scope."},ans:"B",hook:"EP conditions = legally binding；non-compliance may lead to revocation/penalties。",key:"违反 EP conditions 属于严重 compliance issue，后果可包括 enforcement action 和 revocation of the Environmental Permit。EP 是法定许可文件，不是建议书。",wrong:"A: 不合规不会带来 public recognition。C: 违规不会自动增加 project funding，反而可能造成 delay/cost/penalty。D: Expansion of project scope 是项目变更问题，不是违反 EP 的后果。"},
+{lec:3,q:5,topic:"Independent Environmental Checker (IEC)",qtext:"What is one of the roles of the Independent Environmental Checker (IEC) in the EM&A process?",opts:{A:"To conduct the actual monitoring.",B:"To countercheck the findings of the Environmental Team.",C:"To provide legal advice.",D:"To manage public relations."},ans:"B",hook:"ET monitors；IEC counterchecks ET。",key:"IEC 是独立环境核查者，核心角色是 independent checking / auditing / counterchecking ET findings；ET 才是做 actual monitoring 的团队。",wrong:"A: 这是 Environmental Team (ET) 的角色，不是 IEC。C: IEC 不是法律顾问；其工作是环境技术核查与审计。D: Public relations 不是 EM&A 中 IEC 的职责。"},
+{lec:3,q:6,topic:"Fanling Golf Course JR",qtext:"What significant environmental concern was raised regarding the EIA report for the Fanling Golf Course?",opts:{A:"Hydrological impacts on endangered species.",B:"Noise pollution levels.",C:"Air quality assessment.",D:"Waste management practices."},ans:"A",hook:"Fanling Golf Course JR = hydrology + endangered species + ecology data gap。",key:"Fanling Golf Course JR 的核心环境争议包括古树、生态数据差异，以及对 critically endangered species 的 hydrological impacts 评估不足。",wrong:"B: Noise 不是 Fanling Golf Course 的主要 JR 争议。C: Air quality 更像港珠澳大桥 JR 的挑战点。D: Waste management 不是老师在此题强调的 JR concern。"},
+];
+
+const FLASH=[
+{lec:1,term:"Stockholm Declaration 1972",def:"initial international recognition of right to a healthy environment"},
+{lec:1,term:"Brundtland Report 1987",def:"Our Common Future；核心是 sustainable development"},
+{lec:1,term:"Rio Declaration 1992",def:"environment + development；Principle 15 = Precautionary Principle"},
+{lec:1,term:"TM (Technical Memorandum)",def:"statutory and detailed provisions for EIA process (12 sections, 22 annexes)"},
+{lec:1,term:"Public consultation",def:"transparency + various environmental views；不取代 technical assessment"},
+{lec:1,term:"Proactive EIA",def:"early dialogue + incorporated into project cycle + better decision-making"},
+{lec:1,term:"Alternatives in EIA",def:"consider options to minimize adverse environmental consequences"},
+{lec:1,term:"Avoid late focus",def:"early handling reduces expensive remedial measures later"},
+{lec:1,term:"EIAO objective",def:"assess environmental impact of certain projects/proposals + protect environment"},
+{lec:1,term:"DP factors",def:"project type + location/SR distance + size/capacity"},
+{lec:2,term:"Schedule 3",def:"major DP；urban development/redevelopment > 50 ha；requires EIA report"},
+{lec:2,term:"Study Brief",def:"sets purpose/objectives, scope/requirements, assessment methodologies, procedural/reporting requirements"},
+{lec:2,term:"Study Brief NOT",def:"offenses and penalties 是 EIAO 执法，NOT Study Brief details"},
+{lec:2,term:"Scoping Checklist",def:"identify likely impacts during construction, operation and/or decommissioning"},
+{lec:2,term:"HKED",def:"one-stop environment/ecology database；air/noise/water/ecology/EIA data；faster EIA"},
+{lec:2,term:"2021/2022 EIAO review",def:"enhance and simplify EIA process；improve speed and efficiency"},
+{lec:2,term:"DIR",def:"for simple/standard low-impact DP；reduce statutory process from 7.5 to 2.5 months"},
+{lec:2,term:"Public participation after reform",def:"maintain existing public inspection period；NOT reduce"},
+{lec:3,term:"Assumptions",def:"affect impact prediction accuracy；worst-case scenario / JR challenge"},
+{lec:3,term:"VEP",def:"change conditions of Environmental Permit → apply for Variation of EP"},
+{lec:3,term:"FEP",def:"change permit holder/responsibility, no material change → Further Environmental Permit"},
+{lec:3,term:"Surrender",def:"permit holder gives up whole or part of an EP when no longer needed"},
+{lec:3,term:"EP non-compliance",def:"违反 EP conditions → revocation / enforcement consequences"},
+{lec:3,term:"ET vs IEC",def:"ET = actual monitoring；IEC = countercheck ET findings；均须 ≥7年经验，IEC须独立"},
+{lec:3,term:"Fanling Golf Course JR",def:"hydrological impacts on endangered species + ancient trees + ecology survey discrepancy"},
+];
+
+const OV=[
+{lec:1,color:"#1a73e8",name:"Lec 1 — EIA 基础原则 (10题)",rows:[
+  {q:"Q1",topic:"Historical milestone: right to healthy environment",ans:"B",hook:"right to healthy environment → Stockholm 1972"},
+  {q:"Q2",topic:"HK EIA historical development",ans:"D",hook:"EIAO enacted 1997, commenced 1998"},
+  {q:"Q3",topic:"Technical Memorandum (TM)",ans:"B",hook:"TM = statutory technical rulebook"},
+  {q:"Q4",topic:"Public consultation",ans:"C",hook:"transparency + environmental views + accountability"},
+  {q:"Q5",topic:"Proactive planning nature of EIA",ans:"B",hook:"early, proactive, built into decision-making"},
+  {q:"Q6",topic:"Project alternatives & mitigation",ans:"C",hook:"alternatives → minimize adverse consequences"},
+  {q:"Q7",topic:"Avoid late focus",ans:"C",hook:"later stages/expensive remedial → avoid late focus"},
+  {q:"Q8",topic:"Impact Assessment stage (LEAST likely)",ans:"B",hook:"IA ≠ from scratch find alternatives (that is scoping)"},
+  {q:"Q9",topic:"EIAO objective",ans:"B",hook:"assess impacts of certain projects + protect environment"},
+  {q:"Q10",topic:"Designated Project (DP) factors",ans:"D",hook:"type + location/SR + size/capacity → All of above"},
+]},
+{lec:2,color:"#0f9d58",name:"Lec 2 — EIA 流程与工具 (5题)",rows:[
+  {q:"Q1",topic:"Schedule 3 Designated Project",ans:"D",hook:"urban dev/redevelopment > 50 ha + EIA report"},
+  {q:"Q2",topic:"Study Brief contents (NOT)",ans:"C",hook:"offenses & penalties → 排除 (属EIAO执法，非Study Brief)"},
+  {q:"Q3",topic:"Scoping Checklist",ans:"B",hook:"identify possible environmental issues for further assessment"},
+  {q:"Q4",topic:"Hong Kong Environmental Database (HKED)",ans:"A",hook:"environment/ecology data + one-stop platform + faster EIA"},
+  {q:"Q5",topic:"2021/2022 EIAO enhancement",ans:"C",hook:"enhance + simplify + speed/efficiency，not weaken EIA"},
+]},
+{lec:3,color:"#e67e00",name:"Lec 3 — EP / EM&A (5题)",rows:[
+  {q:"Q1",topic:"Assumptions in EIA",ans:"B",hook:"affect impact prediction accuracy"},
+  {q:"Q2",topic:"Variation of Environmental Permit (VEP)",ans:"A",hook:"change EP condition = VEP；change holder = FEP"},
+  {q:"Q3",topic:"Non-compliance with EP",ans:"B",hook:"EP legally binding → revocation/penalties"},
+  {q:"Q5",topic:"Independent Environmental Checker (IEC)",ans:"B",hook:"ET monitors；IEC counterchecks ET"},
+  {q:"Q6",topic:"Fanling Golf Course Judicial Review",ans:"A",hook:"hydrology + endangered species + ecology data gap"},
+]},
+];
+
+let stats={c:0,w:0,n:MCQ.length};
+let ovOpen=false;
+
+function renderOverview(){
+  let h="";
+  OV.forEach(g=>{
+    h+=`<div style="margin-bottom:16px;"><div style="font-size:13px;font-weight:700;color:${g.color};margin-bottom:6px;">${g.name}</div>`;
+    h+='<table class="mcq-ov-table"><thead><tr><th>题号</th><th>考点</th><th style="text-align:center">答案</th><th>快速记忆</th></tr></thead><tbody>';
+    g.rows.forEach(r=>{h+=`<tr><td><b>${r.q}</b></td><td>${r.topic}</td><td style="text-align:center"><span class="ans-pill">${r.ans}</span></td><td style="color:#555">${r.hook}</td></tr>`;});
+    h+="</tbody></table></div>";
+  });
+  document.getElementById("mcq-ov-inner").innerHTML=h;
+}
+
+function renderCards(){
+  const lc={1:"var(--lec1)",2:"var(--lec2)",3:"var(--lec3)"};
+  const ln={1:"Lec 1 — EIA 基础原则",2:"Lec 2 — EIA 流程与工具",3:"Lec 3 — EP / EM&A"};
+  const g={1:[],2:[],3:[]};
+  MCQ.forEach(m=>g[m.lec].push(m));
+  let h="";
+  [1,2,3].forEach(lec=>{
+    const qs=g[lec];
+    h+=`<div class="mcq-lec-group" data-lecg="${lec}"><div class="mcq-lec-heading" style="background:${lc[lec]}"><h3>${ln[lec]}</h3><span class="qcount">${qs.length} 题</span></div><div class="mcq-cards-grid">`;
+    qs.forEach(m=>{
+      const opts=Object.entries(m.opts).map(([k,v])=>`<div class="mcq-opt" data-opt="${k}" onclick="selectOpt(this)">${k}. ${v}</div>`).join("");
+      h+=`<div class="mcq-card" data-lec="${m.lec}" data-q="${m.q}" data-ans="${m.ans}">
+        <div class="mcq-card-head"><span class="mcq-lec-tag lec-tag-${m.lec}">Lec ${m.lec}</span><span class="mcq-q-num">Q${m.q}</span><span class="mcq-topic">${m.topic}</span></div>
+        <div class="mcq-q-text">${m.qtext}</div>
+        <div class="mcq-opts">${opts}</div>
+        <div class="mcq-card-ft">
+          <button class="mcq-check-btn" onclick="checkAns(this)">查看答案</button>
+          <button class="mcq-reset-btn" onclick="resetCard(this)" style="display:none">重置</button>
+          <span class="mcq-verdict"></span>
+        </div>
+        <div class="mcq-reveal"><div class="mcq-hook">${m.hook}</div><div class="mcq-detail"><b>📌 关键考点</b>${m.key}<b>❌ 错项解析</b>${m.wrong}</div></div>
+      </div>`;
+    });
+    h+="</div></div>";
+  });
+  document.getElementById("mcq-cards-root").innerHTML=h;
+}
+
+function renderFlash(){
+  const ln={1:"Lec 1 — EIA 基础原则",2:"Lec 2 — EIA 流程与工具",3:"Lec 3 — EP / EM&A"};
+  const g={1:[],2:[],3:[]};
+  FLASH.forEach(f=>g[f.lec].push(f));
+  let h="";
+  [1,2,3].forEach(lec=>{
+    h+=`<div class="flash-lec-group"><div class="flash-lec-label">${ln[lec]}</div><div class="flash-grid">`;
+    g[lec].forEach(f=>{h+=`<div class="flashcard" data-lec="${lec}"><div class="flash-term">${f.term}</div><div class="flash-def">${f.def}</div></div>`;});
+    h+="</div></div>";
+  });
+  document.getElementById("flash-root").innerHTML=h;
+}
+
+function selectOpt(el){
+  if(el.classList.contains("disabled"))return;
+  el.closest(".mcq-card").querySelectorAll(".mcq-opt").forEach(o=>o.classList.remove("selected"));
+  el.classList.add("selected");
+}
+
+function checkAns(btn){
+  const card=btn.closest(".mcq-card");
+  const sel=card.querySelector(".mcq-opt.selected");
+  if(!sel)return;
+  const correct=card.dataset.ans;
+  const isRight=sel.dataset.opt===correct;
+  card.querySelectorAll(".mcq-opt").forEach(o=>{
+    o.classList.add("disabled");
+    if(o.dataset.opt===correct)o.classList.add("correct");
+    else if(o.classList.contains("selected"))o.classList.add("wrong");
+  });
+  const v=card.querySelector(".mcq-verdict");
+  v.textContent=isRight?"✅ 正确！":"❌ 错误";
+  v.className="mcq-verdict "+(isRight?"right":"wrong2");
+  card.querySelector(".mcq-reveal").style.display="block";
+  btn.style.display="none";
+  card.querySelector(".mcq-reset-btn").style.display="";
+  if(isRight)stats.c++;else stats.w++;
+  stats.n--;
+  updateStats();
+}
+
+function resetCard(btn){
+  const card=btn.closest(".mcq-card");
+  card.querySelectorAll(".mcq-opt").forEach(o=>o.className="mcq-opt");
+  card.querySelector(".mcq-reveal").style.display="none";
+  card.querySelector(".mcq-check-btn").style.display="";
+  btn.style.display="none";
+  card.querySelector(".mcq-verdict").textContent="";
+  stats.n++;updateStats();
+}
+
+function resetAll(){
+  document.querySelectorAll(".mcq-card").forEach(card=>{
+    card.querySelectorAll(".mcq-opt").forEach(o=>o.className="mcq-opt");
+    card.querySelector(".mcq-reveal").style.display="none";
+    card.querySelector(".mcq-check-btn").style.display="";
+    const r=card.querySelector(".mcq-reset-btn");if(r)r.style.display="none";
+    card.querySelector(".mcq-verdict").textContent="";
+  });
+  stats={c:0,w:0,n:MCQ.length};updateStats();
+}
+
+function updateStats(){
+  document.getElementById("stat-c").textContent=stats.c;
+  document.getElementById("stat-w").textContent=stats.w;
+  document.getElementById("stat-n").textContent=stats.n;
+}
+
+function filterLec(lec,btn){
+  document.querySelectorAll(".mcq-sb-btn").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  const nfMap={"all":"nf-all",1:"nf-1",2:"nf-2",3:"nf-3"};
+  document.querySelectorAll(".mcq-nav-filter").forEach(b=>b.classList.remove("active"));
+  const nb=document.getElementById(nfMap[lec]);if(nb)nb.classList.add("active");
+  document.querySelectorAll(".mcq-card").forEach(c=>c.classList.toggle("hidden",lec!=="all"&&c.dataset.lec!=lec));
+  document.querySelectorAll(".mcq-lec-group").forEach(g=>g.style.display=(lec==="all"||g.dataset.lecg==lec)?"":"none");
+}
+
+function switchMode(m){
+  const n=document.getElementById("notes-mode");
+  const q=document.getElementById("mcq-mode");
+  const nn=document.getElementById("nav-notes");
+  const nm=document.getElementById("nav-mcq");
+  if(m==="mcq"){
+    n.style.display="none";q.style.display="";
+    nn.style.display="none";nm.style.display="flex";
+    document.getElementById("btn-notes").classList.remove("active");
+    document.getElementById("btn-mcq").classList.add("active");
+  } else {
+    n.style.display="";q.style.display="none";
+    nm.style.display="none";nn.style.display="flex";
+    document.getElementById("btn-mcq").classList.remove("active");
+    document.getElementById("btn-notes").classList.add("active");
+  }
+  window.scrollTo(0,0);
+}
+
+function toggleOverview(){
+  const inner=document.getElementById("mcq-ov-inner");
+  const arrow=document.getElementById("ov-arrow");
+  ovOpen=!ovOpen;
+  inner.style.display=ovOpen?"block":"none";
+  arrow.textContent=ovOpen?"▲ 折叠":"▼ 展开";
+}
+
+renderOverview();renderCards();renderFlash();
+</script>
 
 </body>
 </html>
